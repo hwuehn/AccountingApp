@@ -1,5 +1,6 @@
 package de.company.accountingfx.view;
 
+import de.company.accountingfx.model.Account;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -50,6 +51,7 @@ public class AccountingOverviewController {
     private TextField tagField;
 
     private AccountingRecord accountingRecord;
+    private Account account;
 
     // Reference to the main application.
     private MainApp mainApp;
@@ -72,7 +74,7 @@ public class AccountingOverviewController {
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
         debitAccColumn.setCellValueFactory(cellData -> cellData.getValue().debitAccProperty().asString());
         docNumColumn.setCellValueFactory(cellData -> cellData.getValue().docNumProperty().asString());
-        //dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty();
+        dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty().asString());
         creditAccColumn.setCellValueFactory(cellData -> cellData.getValue().creditAccProperty().asString());
         tagColumn.setCellValueFactory(cellData -> cellData.getValue().tagsProperty());
 
