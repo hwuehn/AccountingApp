@@ -1,6 +1,5 @@
 package de.company.accountingfx.view;
 
-import de.company.accountingfx.model.Account;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -51,7 +50,6 @@ public class AccountingOverviewController {
     private TextField tagField;
 
     private AccountingRecord accountingRecord;
-    private Account account;
 
     // Reference to the main application.
     private MainApp mainApp;
