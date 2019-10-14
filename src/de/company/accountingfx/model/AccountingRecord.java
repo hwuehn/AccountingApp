@@ -15,7 +15,7 @@ public class AccountingRecord {
 
     private final IntegerProperty iD;
     private final DoubleProperty amount;
-    private final IntegerProperty debitAcc;
+    private Account debitAccID;
     private final IntegerProperty docNum;
     private final ObjectProperty<LocalDate> date;
     private final IntegerProperty creditAcc;
@@ -26,19 +26,20 @@ public class AccountingRecord {
      *
      * @param iD
      * @param amount
-     * @param debitAcc
+     * @param debitAccID
      * @param docNum
      * @param date
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(Integer iD, Double amount, Integer debitAcc, Integer docNum, LocalDate date,
+    public AccountingRecord(Integer iD, Double amount, Account debitAccID, Integer docNum, LocalDate date,
                             Integer creditAcc, String tags) {
         this.iD = new SimpleIntegerProperty(iD);
         this.amount = new SimpleDoubleProperty(amount);
-        this.debitAcc = new SimpleIntegerProperty(debitAcc);
+        this.debitAccID = debitAccID;
         this.docNum = new SimpleIntegerProperty(docNum);
         this.date = new SimpleObjectProperty(date);
+        //TODO
         this.creditAcc = new SimpleIntegerProperty(creditAcc);
         this.tags = new SimpleStringProperty(tags);
     }
@@ -67,12 +68,12 @@ public class AccountingRecord {
         this.amount.set(amount);
     }
 
-    public Integer getDebitAcc() {
-        return debitAcc.get();
+    public Account getDebitAccID() {
+        return debitAccID.get();
     }
 
-    public IntegerProperty debitAccProperty() {
-        return debitAcc;
+    public Account debitAccProperty() {
+        return debitAccID;
     }
 
     public void setDebitAcc(Integer debitAcc) {
