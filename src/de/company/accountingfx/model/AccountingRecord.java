@@ -15,10 +15,10 @@ public class AccountingRecord {
 
     private final IntegerProperty iD;
     private final DoubleProperty amount;
-    private Account debitAccID;
+    private final ObjectProperty<Account> debitAcc;
     private final IntegerProperty docNum;
     private final ObjectProperty<LocalDate> date;
-    private final IntegerProperty creditAcc;
+    private final ObjectProperty<Account> creditAcc;
     private final StringProperty tags;
 
      /**
@@ -26,21 +26,20 @@ public class AccountingRecord {
      *
      * @param iD
      * @param amount
-     * @param debitAccID
+     * @param debitAcc
      * @param docNum
      * @param date
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(Integer iD, Double amount, Account debitAccID, Integer docNum, LocalDate date,
-                            Integer creditAcc, String tags) {
+    public AccountingRecord(Integer iD, Double amount, Account debitAcc, Integer docNum, LocalDate date,
+                            Account creditAcc, String tags) {
         this.iD = new SimpleIntegerProperty(iD);
         this.amount = new SimpleDoubleProperty(amount);
-        this.debitAccID = debitAccID;
+        this.debitAcc = new SimpleObjectProperty<>(debitAcc);
         this.docNum = new SimpleIntegerProperty(docNum);
         this.date = new SimpleObjectProperty(date);
-        //TODO
-        this.creditAcc = new SimpleIntegerProperty(creditAcc);
+        this.creditAcc = new SimpleObjectProperty<>(creditAcc);
         this.tags = new SimpleStringProperty(tags);
     }
 
@@ -68,15 +67,15 @@ public class AccountingRecord {
         this.amount.set(amount);
     }
 
-    public Account getDebitAccID() {
-        return debitAccID.get();
+    public Account getDebitAcc() {
+        return debitAcc.get();
     }
 
-    public Account debitAccProperty() {
-        return debitAccID;
+    public ObjectProperty<Account> debitAccProperty() {
+        return debitAcc;
     }
 
-    public void setDebitAcc(Integer debitAcc) {
+    public void setDebitAcc(Account debitAcc) {
         this.debitAcc.set(debitAcc);
     }
 
@@ -105,15 +104,15 @@ public class AccountingRecord {
         this.date.set(date);
     }
 
-    public Integer getCreditAcc() {
+    public Account getCreditAcc() {
         return creditAcc.get();
     }
 
-    public IntegerProperty creditAccProperty() {
+    public ObjectProperty<Account> creditAccProperty() {
         return creditAcc;
     }
 
-    public void setCreditAcc(Integer creditAcc) {
+    public void setCreditAcc(Account creditAcc) {
         this.creditAcc.set(creditAcc);
     }
 

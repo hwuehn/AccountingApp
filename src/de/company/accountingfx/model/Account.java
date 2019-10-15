@@ -1,9 +1,6 @@
 package de.company.accountingfx.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 /**
  * Model class for a Account.
@@ -13,10 +10,12 @@ import javafx.beans.property.StringProperty;
 public class Account {
     private final IntegerProperty accID;
     private final StringProperty accTag;
+    private final DoubleProperty initialBalance;
 
     public Account(Integer accID, String accTag) {
         this.accID = new SimpleIntegerProperty(accID);
         this.accTag = new SimpleStringProperty(accTag);
+        this.initialBalance = new SimpleDoubleProperty(0.00);
     }
 
     public int getAccID() {
