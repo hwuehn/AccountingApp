@@ -1,8 +1,8 @@
 package de.company.accountingfx.view;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -86,7 +86,15 @@ public class AccountingOverviewController {
         //debitAccColumn.setCellValueFactory(cellData -> cellData.getValue().debitAccProperty().asString());
         docNumColumn.setCellValueFactory(cellData -> cellData.getValue().docNumProperty().asString());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty().asString());
-        creditAccColumn.setCellValueFactory(cellData -> cellData.getValue().creditAccProperty().asString());
+
+        creditAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
+                return new SimpleStringProperty(param.getValue().getCreditAcc().getAccID());
+            }
+        });
+
+        //creditAccColumn.setCellValueFactory(cellData -> cellData.getValue().creditAccProperty().asString());
         tagColumn.setCellValueFactory(cellData -> cellData.getValue().tagsProperty());
 
         // Clear accoundRecord details.

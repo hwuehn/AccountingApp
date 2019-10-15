@@ -8,25 +8,25 @@ import javafx.beans.property.*;
  * @author Henning Wuehn
  */
 public class Account {
-    private final IntegerProperty accID;
+    private final StringProperty accID;
     private final StringProperty accTag;
     private final DoubleProperty initialBalance;
 
-    public Account(Integer accID, String accTag) {
-        this.accID = new SimpleIntegerProperty(accID);
+    public Account(String accID, String accTag) {
+        this.accID = new SimpleStringProperty(accID);
         this.accTag = new SimpleStringProperty(accTag);
         this.initialBalance = new SimpleDoubleProperty(0.00);
     }
 
-    public int getAccID() {
+    public String getAccID() {
         return accID.get();
     }
 
-    public IntegerProperty accIDProperty() {
+    public StringProperty accIDProperty() {
         return accID;
     }
 
-    public void setAccID(int accID) {
+    public void setAccID(String accID) {
         this.accID.set(accID);
     }
 

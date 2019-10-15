@@ -35,11 +35,11 @@ public class MainApp extends Application {
      */
     public MainApp() {
         // Add some accounts
-        Account fuhrpark = new Account(700,"Fuhrpark");
-        Account kasse = new Account(1600,"Kasse");
-        Account bank = new Account(1800,"Bank");
-        Account reiningung = new Account(6330,"Reinigung");
-        Account buerobedarf = new Account(6815,"Buerobedarf");
+        Account fuhrpark = new Account("700","Fuhrpark");
+        Account kasse = new Account("1600","Kasse");
+        Account bank = new Account("1800","Bank");
+        Account reiningung = new Account("6330","Reinigung");
+        Account buerobedarf = new Account("6815","Buerobedarf");
 
         accountList.addAll(fuhrpark,kasse,bank,reiningung,buerobedarf);
 
