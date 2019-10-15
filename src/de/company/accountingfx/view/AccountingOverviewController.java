@@ -243,20 +243,21 @@ public class AccountingOverviewController {
      * Called when the user clicks the submit button. Inserts the userInput in the ne record..
      */
     @FXML
-    public void setPerson(AccountingRecord accountingRecord) {
-        this.accountingRecord = accountingRecord;
-        //TODO
-        amountField.setText(accountingRecord.getAmount().toString());
-//        debitAccField.setText(accountingRecord.debitAccProperty());
-//
-//        firstNameField.setText(person.getFirstName());
-//        lastNameField.setText(person.getLastName());
-//        streetField.setText(person.getStreet());
-//        postalCodeField.setText(Integer.toString(person.getPostalCode()));
-//        cityField.setText(person.getCity());
-//        birthdayField.setText(DateUtil.format(person.getBirthday()));
-//        birthdayField.setPromptText("dd.mm.yyyy");
+    public void setAccountingRecord() {
+
+        mainApp.getAccountingRecordData().addAll(
+                accountingRecord.setiD(0),
+                accountingRecord.setAmount(String.valueOf(amountField.getText()),
+                        accountingRecord.setDebitAcc(debitAccField.getValue().getAccID(),
+                                accountingRecord.setDocNum(docNumField.getText(),
+                                        accountingRecord.setDate(dateField.getText(),
+                                                accountingRecord.setCreditAcc(creditAccField.getValue().getAccID(),
+                                                        accountingRecord.setTags(tagField.getText())))))));
+
     }
+
+
+
 
 
 }
