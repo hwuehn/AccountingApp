@@ -91,7 +91,7 @@ public class AccountingOverviewController {
         debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
-                return new SimpleStringProperty(param.getValue().getCreditAcc().getAccID());
+                return new SimpleStringProperty(param.getValue().getDebitAcc().getAccID());
             }
         });
 
@@ -169,7 +169,7 @@ public class AccountingOverviewController {
     }
 
     /**
-     * Called when the user clicks the sumbmit button. Inserts the userInput in the ne record..
+     * Called when the user clicks the submit button. Inserts the userInput in the ne record..
      */
     @FXML
     public void setPerson(AccountingRecord accountingRecord) {
