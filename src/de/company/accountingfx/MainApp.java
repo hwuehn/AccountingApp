@@ -8,14 +8,12 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -28,6 +26,11 @@ public class MainApp extends Application {
      * The data as an observable list of AccountingRecords.
      */
     private ObservableList<AccountingRecord> accountingRecordData = FXCollections.observableArrayList();
+
+    public void setAccountList(ObservableList<Account> accountList) {
+        this.accountList = accountList;
+    }
+
     private ObservableList<Account> accountList = FXCollections.observableArrayList();
 
     /**

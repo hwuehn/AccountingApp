@@ -13,6 +13,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <AnchorPane prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.company.accountingfx.view.AccountingOverviewController">
    <children>
       <SplitPane dividerPositions="0.680327868852459" layoutX="7.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -60,7 +62,7 @@
                            <GridPane.margin>
                               <Insets right="5.0" />
                            </GridPane.margin></TextField>
-                        <ComboBox fx:id="debitAccField" editable="true" prefWidth="150.0" promptText="account" GridPane.columnIndex="2">
+                        <ComboBox fx:id="debitAccField" editable="true" prefWidth="150.0" promptText="account" GridPane.columnIndex="2" >
                            <GridPane.margin>
                               <Insets right="5.0" />
                            </GridPane.margin></ComboBox>

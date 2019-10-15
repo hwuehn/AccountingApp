@@ -1,16 +1,17 @@
 package de.company.accountingfx.view;
 
-import javafx.beans.InvalidationListener;
+import de.company.accountingfx.model.Account;
+import javafx.beans.Observable;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.AccountingRecord;
-import de.company.accountingfx.util.DateUtil;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 public class AccountingOverviewController {
     @FXML
@@ -47,8 +48,10 @@ public class AccountingOverviewController {
     private TextField iDField;
     @FXML
     private TextField amountField;
-    @FXML
-    private ComboBox debitAccField;
+
+
+
+
     @FXML
     private TextField docNumField;
     @FXML
@@ -59,9 +62,41 @@ public class AccountingOverviewController {
     private TextField tagField;
 
     private AccountingRecord accountingRecord;
+    private Account account;
 
     // Reference to the main application.
     private MainApp mainApp;
+
+    @FXML
+    private ComboBox<Account> debitAccField;
+
+//    ObservableList<String> names = FXCollections.observableArrayList("Bob","Klaus", "Tina");
+//
+//    public ObservableList<String> getNames() {
+//        return names;
+//    }
+//    public void setNames(ObservableList<String> names) {
+//        this.names = names;
+//    }
+
+    // Add some accounts
+    Account fuhrpark = new Account("700","Fuhrpark");
+    Account kasse = new Account("1600","Kasse");
+    Account bank = new Account("1800","Bank");
+    Account reiningung = new Account("6330","Reinigung");
+    Account buerobedarf = new Account("6815","Buerobedarf");
+
+    public ObservableList<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(ObservableList<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    ObservableList<Account> accounts = FXCollections.observableArrayList(fuhrpark,kasse,bank,reiningung,buerobedarf);
+
+
 
     /**
      * The constructor.
@@ -80,21 +115,12 @@ public class AccountingOverviewController {
         iDColumn.setCellValueFactory(cellData -> cellData.getValue().iDProperty().asString());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
 
-        //use for selecting details
-//        debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
-//            @Override
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
-//                return new SimpleStringProperty(param.getValue().getDebitAcc().getAccTag());
-//            }
-//        });
-
         debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
                 return new SimpleStringProperty(param.getValue().getDebitAcc().getAccID());
             }
         });
-
 
         docNumColumn.setCellValueFactory(cellData -> cellData.getValue().docNumProperty().asString());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty().asString());
@@ -114,7 +140,53 @@ public class AccountingOverviewController {
         // Listen for selection changes and show the accoundRecord details when changed.
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
+
+        //debitAccField.setItems(accounts);
+
+        debitAccField.setCellFactory(new Callback<ListView<Account>,ListCell<Account>>(){
+            @Override
+            public ListCell<Account> call(ListView<Account> l){
+                return new ListCell<Account>(){
+
+                    @Override
+                    protected void updateItem(Account item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.getAccID()+"    "+item.getAccTag());
+                        }
+                    }
+                } ;
+            }
+        });
+
+        debitAccField.setConverter(new StringConverter<Account>() {
+            @Override
+            public String toString(Account account) {
+                if (account== null){
+                    return null;
+                } else {
+                    return account.getAccID();
+                }
+            }
+
+            @Override
+            public Account fromString(String id) {
+                return null;
+            }
+        });
+
+        accounts = getAccounts();
+        debitAccField.setItems(FXCollections.observableArrayList(accounts));
     }
+
+//    public void getAccountDataFields() {
+//        debitAccField.getItems().clear();
+//        debitAccField.setItems(mainApp.getAccountList());
+//        //debitAccField.setCellFactory();
+//    }
+
 
     /**
      * Is called by the main application to give a reference back to itself.
@@ -128,7 +200,13 @@ public class AccountingOverviewController {
        accountingRecordTable.setItems(mainApp.getAccountingRecordData());
 
      // Add observable List data to the table
-        
+        //debitAccField.setItems(mainApp.getAccountList());
+       // getAccountDataFields();
+
+
+
+
+
     }
 
     /**
