@@ -1,5 +1,6 @@
 package de.company.accountingfx.model;
 
+import de.company.accountingfx.util.IdCounter;
 import de.company.accountingfx.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
@@ -13,13 +14,17 @@ import java.time.LocalDate;
  */
 public class AccountingRecord {
 
-    private final IntegerProperty iD;
-    private final DoubleProperty amount;
-    private final ObjectProperty<Account> debitAcc;
-    private final IntegerProperty docNum;
-    private final ObjectProperty<LocalDate> date;
-    private final ObjectProperty<Account> creditAcc;
-    private final StringProperty tags;
+    private IntegerProperty iD;
+    private SimpleDoubleProperty amount;
+    private ObjectProperty<Account> debitAcc;
+    private IntegerProperty docNum;
+    private ObjectProperty<LocalDate> date;
+    private ObjectProperty<Account> creditAcc;
+    private StringProperty tags;
+
+    public AccountingRecord() {
+
+    }
 
      /**
      * Constructor with some initial data.
@@ -32,13 +37,14 @@ public class AccountingRecord {
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(Integer iD, Double amount, Account debitAcc, Integer docNum, LocalDate date,
+    public AccountingRecord(IdCounter idCounter, Double amount, Account debitAcc, Integer docNum, LocalDate date,
                             Account creditAcc, String tags) {
-        this.iD = new SimpleIntegerProperty(iD);
+        this.iD = new SimpleIntegerProperty(idCounter.getCounter());
         this.amount = new SimpleDoubleProperty(amount);
         this.debitAcc = new SimpleObjectProperty<>(debitAcc);
         this.docNum = new SimpleIntegerProperty(docNum);
-        this.date = new SimpleObjectProperty(date);
+        this.date = new SimpleObjectProperty<LocalDate>(date);
+        //this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
         this.creditAcc = new SimpleObjectProperty<>(creditAcc);
         this.tags = new SimpleStringProperty(tags);
     }
@@ -51,10 +57,6 @@ public class AccountingRecord {
         return iD;
     }
 
-    public void setiD(Integer numberID) {
-        this.iD.set(numberID);
-    }
-
     public Double getAmount() {
         return amount.get();
     }
@@ -63,7 +65,7 @@ public class AccountingRecord {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount.set(amount);
     }
 

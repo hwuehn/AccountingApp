@@ -2,20 +2,19 @@ package de.company.accountingfx;
 
 import de.company.accountingfx.model.Account;
 import de.company.accountingfx.model.AccountingRecord;
+import de.company.accountingfx.util.IdCounter;
 import de.company.accountingfx.view.AccountingOverviewController;
 import de.company.accountingfx.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -28,6 +27,11 @@ public class MainApp extends Application {
      * The data as an observable list of AccountingRecords.
      */
     private ObservableList<AccountingRecord> accountingRecordData = FXCollections.observableArrayList();
+
+    public void setAccountList(ObservableList<Account> accountList) {
+        this.accountList = accountList;
+    }
+
     private ObservableList<Account> accountList = FXCollections.observableArrayList();
 
     /**
@@ -35,45 +39,50 @@ public class MainApp extends Application {
      */
     public MainApp() {
         // Add some accounts
-        Account fuhrpark = new Account(700,"Fuhrpark");
-        Account kasse = new Account(1600,"Kasse");
-        Account bank = new Account(1800,"Bank");
-        Account reiningung = new Account(6330,"Reinigung");
-        Account buerobedarf = new Account(6815,"Buerobedarf");
+        Account fuhrpark = new Account("700","Fuhrpark");
+        Account kasse = new Account("1600","Kasse");
+        Account bank = new Account("1800","Bank");
+        Account reiningung = new Account("6330","Reinigung");
+        Account buerobedarf = new Account("6815","Buerobedarf");
 
         accountList.addAll(fuhrpark,kasse,bank,reiningung,buerobedarf);
 
         // Add some sample data
-        accountingRecordData.add(new AccountingRecord(1, 10000.00, fuhrpark,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(2, 30.00, reiningung,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord(3, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord(4, 160.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord(5, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
-        accountingRecordData.add(new AccountingRecord(1, 10000.00, fuhrpark,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(2, 30.00, reiningung,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord(3, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord(4, 160.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord(5, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
-        accountingRecordData.add(new AccountingRecord(1, 10000.00, fuhrpark,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(2, 30.00, reiningung,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord(3, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord(4, 160.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord(5, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new IdCounter(), 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
+    }
+
+    public ObservableList<AccountingRecord> addARecordToList(ObservableList<AccountingRecord> accountingRecordData, AccountingRecord accountingRecord) {
+        accountingRecordData.add(accountingRecord);
+        return accountingRecordData;
     }
 
     /**
