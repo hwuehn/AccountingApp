@@ -77,12 +77,13 @@ public class MainApp extends Application {
     }
 
     /**
-     * Returns the data as an observable list of AccountingRecords.
+     * Returns the data as an observable list of AccountingRecords and Accounts.
      * @return
      */
     public ObservableList<AccountingRecord> getAccountingRecordData() {
         return accountingRecordData;
     }
+    public ObservableList<Account> getAccountList() {return accountList; }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
