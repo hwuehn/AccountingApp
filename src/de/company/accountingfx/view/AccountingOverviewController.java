@@ -43,21 +43,16 @@ public class AccountingOverviewController {
     private Label debitAccAmountLabel;
     @FXML
     private Label creditAccAmountLabel;
-
     @FXML
     private TextField iDField;
     @FXML
     private TextField amountField;
-
-
-
-
     @FXML
     private TextField docNumField;
     @FXML
     private TextField dateField;
     @FXML
-    private ComboBox creditAccField;
+    private ComboBox<Account> creditAccField;
     @FXML
     private TextField tagField;
 
@@ -69,15 +64,6 @@ public class AccountingOverviewController {
 
     @FXML
     private ComboBox<Account> debitAccField;
-
-//    ObservableList<String> names = FXCollections.observableArrayList("Bob","Klaus", "Tina");
-//
-//    public ObservableList<String> getNames() {
-//        return names;
-//    }
-//    public void setNames(ObservableList<String> names) {
-//        this.names = names;
-//    }
 
     // Add some accounts
     Account fuhrpark = new Account("700","Fuhrpark");
@@ -95,8 +81,6 @@ public class AccountingOverviewController {
     }
 
     ObservableList<Account> accounts = FXCollections.observableArrayList(fuhrpark,kasse,bank,reiningung,buerobedarf);
-
-
 
     /**
      * The constructor.
@@ -141,26 +125,21 @@ public class AccountingOverviewController {
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
 
-        //debitAccField.setItems(accounts);
+        accounts = getAccounts();
+        debitAccField.setItems(FXCollections.observableArrayList(accounts));
+        debitAccField.getSelectionModel().selectFirst();
+        creditAccField.setItems(FXCollections.observableArrayList(accounts));
+        creditAccField.getSelectionModel().selectFirst();
+        // list of values showed in combo box drop down
 
-        debitAccField.setCellFactory(new Callback<ListView<Account>,ListCell<Account>>(){
-            @Override
-            public ListCell<Account> call(ListView<Account> l){
-                return new ListCell<Account>(){
+        Callback<ListView<Account>, ListCell<Account>> cellFactory = createCellFactoryAcc();
+        // Just set the button cell here:
+        debitAccField.setButtonCell(cellFactory.call(null));
+        debitAccField.setCellFactory(cellFactory);
+        creditAccField.setButtonCell(cellFactory.call(null));
+        creditAccField.setCellFactory(cellFactory);
 
-                    @Override
-                    protected void updateItem(Account item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setGraphic(null);
-                        } else {
-                            setText(item.getAccID()+"    "+item.getAccTag());
-                        }
-                    }
-                } ;
-            }
-        });
-
+        //selected value showed in combo box
         debitAccField.setConverter(new StringConverter<Account>() {
             @Override
             public String toString(Account account) {
@@ -170,23 +149,46 @@ public class AccountingOverviewController {
                     return account.getAccID();
                 }
             }
-
             @Override
             public Account fromString(String id) {
                 return null;
             }
         });
 
-        accounts = getAccounts();
-        debitAccField.setItems(FXCollections.observableArrayList(accounts));
+        creditAccField.setConverter(new StringConverter<Account>() {
+            @Override
+            public String toString(Account account) {
+                if (account== null){
+                    return null;
+                } else {
+                    return account.getAccID();
+                }
+            }
+            @Override
+            public Account fromString(String id) {
+                return null;
+            }
+        });
     }
 
-//    public void getAccountDataFields() {
-//        debitAccField.getItems().clear();
-//        debitAccField.setItems(mainApp.getAccountList());
-//        //debitAccField.setCellFactory();
-//    }
-
+    private Callback<ListView<Account>, ListCell<Account>> createCellFactoryAcc() {
+        return new Callback<ListView<Account>, ListCell<Account>>() {
+                @Override
+                public ListCell<Account> call(ListView<Account> l) {
+                    return new ListCell<Account>() {
+                        @Override
+                        protected void updateItem(Account item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (item == null || empty) {
+                                setGraphic(null);
+                            } else {
+                                setText(item.getAccID() + "    " + item.getAccTag());
+                            }
+                        }
+                    };
+                }
+            };
+    }
 
     /**
      * Is called by the main application to give a reference back to itself.
@@ -198,16 +200,7 @@ public class AccountingOverviewController {
 
      // Add observable list data to the table
        accountingRecordTable.setItems(mainApp.getAccountingRecordData());
-
-     // Add observable List data to the table
-        //debitAccField.setItems(mainApp.getAccountList());
-       // getAccountDataFields();
-
-
-
-
-
-    }
+     }
 
     /**
      * Fills all text fields to show details about the accountingRecord.
