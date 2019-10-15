@@ -76,14 +76,22 @@ public class AccountingOverviewController {
         iDColumn.setCellValueFactory(cellData -> cellData.getValue().iDProperty().asString());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
 
+        //use for selecting details
+//        debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
+//            @Override
+//            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
+//                return new SimpleStringProperty(param.getValue().getDebitAcc().getAccTag());
+//            }
+//        });
+
         debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
-                return new SimpleStringProperty(param.getValue().getDebitAcc().getAccTag());
+                return new SimpleStringProperty(param.getValue().getCreditAcc().getAccID());
             }
         });
 
-        //debitAccColumn.setCellValueFactory(cellData -> cellData.getValue().debitAccProperty().asString());
+
         docNumColumn.setCellValueFactory(cellData -> cellData.getValue().docNumProperty().asString());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty().asString());
 
@@ -94,7 +102,6 @@ public class AccountingOverviewController {
             }
         });
 
-        //creditAccColumn.setCellValueFactory(cellData -> cellData.getValue().creditAccProperty().asString());
         tagColumn.setCellValueFactory(cellData -> cellData.getValue().tagsProperty());
 
         // Clear accoundRecord details.
@@ -129,11 +136,11 @@ public class AccountingOverviewController {
     private void showAccountingRecordDetails(AccountingRecord accountingRecord) {
         if (accountingRecord != null) {
             // Fill the labels with info from the accountingRecord object.
-            //TODO create accTag
-            debitAccIDLabel.setText(accountingRecord.getDebitAcc().toString());
-            debitAccTagLabel.setText(accountingRecord.getDebitAcc().toString());
-            creditAccIDLabel.setText(accountingRecord.getCreditAcc().toString());
-            creditAccTagLabel.setText(accountingRecord.getCreditAcc().toString());
+            
+            debitAccIDLabel.setText(accountingRecord.getDebitAcc().getAccID());
+            debitAccTagLabel.setText(accountingRecord.getDebitAcc().getAccTag());
+            creditAccIDLabel.setText(accountingRecord.getCreditAcc().getAccID());
+            creditAccTagLabel.setText(accountingRecord.getCreditAcc().getAccTag());
 
         } else {
             // Accountingrecord is null, remove all the text.
