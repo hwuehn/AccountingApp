@@ -94,6 +94,9 @@ public class AccountingOverviewController {
 
      // Add observable list data to the table
        accountingRecordTable.setItems(mainApp.getAccountingRecordData());
+
+     // Add observable List data to the table
+        
     }
 
     /**
