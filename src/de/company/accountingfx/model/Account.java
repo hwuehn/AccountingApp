@@ -41,4 +41,12 @@ public class Account {
     public void setAccTag(String accTag) {
         this.accTag.set(accTag);
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accID=" + accID +
+                ", accTag=" + accTag +
+                '}';
+    }
 }

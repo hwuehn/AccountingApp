@@ -1,11 +1,16 @@
 package de.company.accountingfx.view;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.AccountingRecord;
 import de.company.accountingfx.util.DateUtil;
+import javafx.util.Callback;
 
 public class AccountingOverviewController {
     @FXML
@@ -70,7 +75,15 @@ public class AccountingOverviewController {
         // Initialize the accountingRecord table with the seven columns.
         iDColumn.setCellValueFactory(cellData -> cellData.getValue().iDProperty().asString());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
-        debitAccColumn.setCellValueFactory(cellData -> cellData.getValue().debitAccProperty().asString());
+
+        debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
+                return new SimpleStringProperty(param.getValue().getDebitAcc().getAccTag());
+            }
+        });
+
+        //debitAccColumn.setCellValueFactory(cellData -> cellData.getValue().debitAccProperty().asString());
         docNumColumn.setCellValueFactory(cellData -> cellData.getValue().docNumProperty().asString());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty().asString());
         creditAccColumn.setCellValueFactory(cellData -> cellData.getValue().creditAccProperty().asString());
@@ -103,7 +116,7 @@ public class AccountingOverviewController {
      * Fills all text fields to show details about the accountingRecord.
      * If the specified accountingRecord is null, all text fields are cleared.
      *
-     * @param accountingRecord the person or null
+     * @param accountingRecord or null
      */
     private void showAccountingRecordDetails(AccountingRecord accountingRecord) {
         if (accountingRecord != null) {
