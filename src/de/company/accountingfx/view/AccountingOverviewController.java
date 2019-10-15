@@ -38,6 +38,10 @@ public class AccountingOverviewController {
     private Label creditAccIDLabel;
     @FXML
     private Label creditAccTagLabel;
+    @FXML
+    private Label debitAccAmountLabel;
+    @FXML
+    private Label creditAccAmountLabel;
 
     @FXML
     private TextField iDField;
@@ -136,11 +140,13 @@ public class AccountingOverviewController {
     private void showAccountingRecordDetails(AccountingRecord accountingRecord) {
         if (accountingRecord != null) {
             // Fill the labels with info from the accountingRecord object.
-            
+
             debitAccIDLabel.setText(accountingRecord.getDebitAcc().getAccID());
             debitAccTagLabel.setText(accountingRecord.getDebitAcc().getAccTag());
+            debitAccAmountLabel.setText(accountingRecord.getAmount().toString());
             creditAccIDLabel.setText(accountingRecord.getCreditAcc().getAccID());
             creditAccTagLabel.setText(accountingRecord.getCreditAcc().getAccTag());
+            creditAccAmountLabel.setText(accountingRecord.getAmount().toString());
 
         } else {
             // Accountingrecord is null, remove all the text.
@@ -148,7 +154,6 @@ public class AccountingOverviewController {
             debitAccTagLabel.setText("");
             debitAccIDLabel.setText("");
             creditAccTagLabel.setText("");
-
         }
     }
 
