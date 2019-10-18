@@ -253,14 +253,12 @@ public class AccountingOverviewController {
                 DateUtil.parse(dateField.getText()),
                 creditAccField.getSelectionModel().getSelectedItem(), tagField.getText());
 
-
-//        accountingRecord.
-//        this.accountingRecord.setAmount(String.valueOf(amountField.getText()),
-//                        this.accountingRecord.setDebitAcc(debitAccField.getValue().getAccID(),
-//                                this.accountingRecord.setDocNum(docNumField.getText(),
-//                                        this.accountingRecord.setDate(dateField.getText(),
-//                                                this.accountingRecord.setCreditAcc(creditAccField.getValue().getAccID(),
-//                                                        this.accountingRecord.setTags(tagField.getText())))))));
+        this.accountingRecord.setAmount(Double.parseDouble(amountField.getText()));
+        this.accountingRecord.setDebitAcc(debitAccField.getSelectionModel().getSelectedItem());
+        this.accountingRecord.setDocNum(Integer.parseInt(docNumField.getText()));
+        this.accountingRecord.setDate(DateUtil.parse(dateField.getText()));
+        this.accountingRecord.setCreditAcc(creditAccField.getSelectionModel().getSelectedItem());
+        this.accountingRecord.setTags(tagField.getText());
 
 
 
