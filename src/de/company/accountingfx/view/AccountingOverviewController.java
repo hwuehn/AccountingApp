@@ -1,6 +1,8 @@
 package de.company.accountingfx.view;
 
 import de.company.accountingfx.model.Account;
+import de.company.accountingfx.util.CounterId;
+import de.company.accountingfx.util.DateUtil;
 import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
@@ -14,6 +16,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 public class AccountingOverviewController {
+
     @FXML
     private TableView<AccountingRecord> accountingRecordTable;
     @FXML
@@ -245,15 +248,23 @@ public class AccountingOverviewController {
     @FXML
     public void setAccountingRecord() {
 
-        mainApp.getAccountingRecordData()
-                .add(accountingRecord.setiD(0));
+        AccountingRecord accountingRecord = new AccountingRecord(Double.parseDouble(amountField.getText()),
+                debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
+                DateUtil.parse(dateField.getText()),
+                creditAccField.getSelectionModel().getSelectedItem(), tagField.getText());
 
-                accountingRecord.setAmount(String.valueOf(amountField.getText()),
-                        accountingRecord.setDebitAcc(debitAccField.getValue().getAccID(),
-                                accountingRecord.setDocNum(docNumField.getText(),
-                                        accountingRecord.setDate(dateField.getText(),
-                                                accountingRecord.setCreditAcc(creditAccField.getValue().getAccID(),
-                                                        accountingRecord.setTags(tagField.getText())))))));
+
+//        accountingRecord.
+//        this.accountingRecord.setAmount(String.valueOf(amountField.getText()),
+//                        this.accountingRecord.setDebitAcc(debitAccField.getValue().getAccID(),
+//                                this.accountingRecord.setDocNum(docNumField.getText(),
+//                                        this.accountingRecord.setDate(dateField.getText(),
+//                                                this.accountingRecord.setCreditAcc(creditAccField.getValue().getAccID(),
+//                                                        this.accountingRecord.setTags(tagField.getText())))))));
+
+
+
+        //mainApp.getAccountingRecordData()
 
     }
 

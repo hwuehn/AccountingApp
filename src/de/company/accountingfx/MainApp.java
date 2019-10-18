@@ -47,35 +47,35 @@ public class MainApp extends Application {
         accountList.addAll(fuhrpark,kasse,bank,reiningung,buerobedarf);
 
         // Add some sample data
-        accountingRecordData.add(new AccountingRecord(1, 10000.00, fuhrpark,
+        accountingRecordData.add(new AccountingRecord(10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(2, 30.00, reiningung,
+        accountingRecordData.add(new AccountingRecord(30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord(3, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord(4, 160.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord(5, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
-        accountingRecordData.add(new AccountingRecord(1, 10000.00, fuhrpark,
+        accountingRecordData.add(new AccountingRecord( 10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(2, 30.00, reiningung,
+        accountingRecordData.add(new AccountingRecord( 30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord(3, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord(4, 160.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord(5, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
-        accountingRecordData.add(new AccountingRecord(1, 10000.00, fuhrpark,
+        accountingRecordData.add(new AccountingRecord( 10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(2, 30.00, reiningung,
+        accountingRecordData.add(new AccountingRecord( 30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord(3, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord(4, 160.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord(5, 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
     }
 

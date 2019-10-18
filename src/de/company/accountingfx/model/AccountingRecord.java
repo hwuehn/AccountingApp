@@ -1,5 +1,6 @@
 package de.company.accountingfx.model;
 
+import de.company.accountingfx.util.CounterId;
 import de.company.accountingfx.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
@@ -13,13 +14,20 @@ import java.time.LocalDate;
  */
 public class AccountingRecord {
 
-    private final IntegerProperty iD;
-    private final DoubleProperty amount;
-    private final ObjectProperty<Account> debitAcc;
-    private final IntegerProperty docNum;
-    private final ObjectProperty<LocalDate> date;
-    private final ObjectProperty<Account> creditAcc;
-    private final StringProperty tags;
+    private IntegerProperty iD;
+    private DoubleProperty amount;
+    private ObjectProperty<Account> debitAcc;
+    private IntegerProperty docNum;
+    private ObjectProperty<LocalDate> date;
+    private ObjectProperty<Account> creditAcc;
+    private StringProperty tags;
+
+    /**
+     * Default constructor.
+     */
+    public AccountingRecord() {
+
+    }
 
      /**
      * Constructor with some initial data.
@@ -32,9 +40,9 @@ public class AccountingRecord {
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(Integer iD, Double amount, Account debitAcc, Integer docNum, LocalDate date,
+    public AccountingRecord(Double amount, Account debitAcc, Integer docNum, LocalDate date,
                             Account creditAcc, String tags) {
-        this.iD = new SimpleIntegerProperty(iD);
+        this.iD = new SimpleIntegerProperty(new CounterId().getCounter());
         this.amount = new SimpleDoubleProperty(amount);
         this.debitAcc = new SimpleObjectProperty<>(debitAcc);
         this.docNum = new SimpleIntegerProperty(docNum);
@@ -49,10 +57,6 @@ public class AccountingRecord {
 
     public IntegerProperty iDProperty() {
         return iD;
-    }
-
-    public void setiD(Integer numberID) {
-        this.iD.set(numberID);
     }
 
     public Double getAmount() {
