@@ -245,8 +245,9 @@ public class AccountingOverviewController {
     @FXML
     public void setAccountingRecord() {
 
-        mainApp.getAccountingRecordData().addAll(
-                accountingRecord.setiD(0),
+        mainApp.getAccountingRecordData()
+                .add(accountingRecord.setiD(0));
+
                 accountingRecord.setAmount(String.valueOf(amountField.getText()),
                         accountingRecord.setDebitAcc(debitAccField.getValue().getAccID(),
                                 accountingRecord.setDocNum(docNumField.getText(),
