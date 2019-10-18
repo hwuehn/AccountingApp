@@ -26,11 +26,6 @@ public class MainApp extends Application {
      * The data as an observable list of AccountingRecords.
      */
     private ObservableList<AccountingRecord> accountingRecordData = FXCollections.observableArrayList();
-
-    public void setAccountList(ObservableList<Account> accountList) {
-        this.accountList = accountList;
-    }
-
     private ObservableList<Account> accountList = FXCollections.observableArrayList();
 
     /**
@@ -87,6 +82,9 @@ public class MainApp extends Application {
         return accountingRecordData;
     }
     public ObservableList<Account> getAccountList() {return accountList; }
+    public void setAccountList(ObservableList<Account> accountList) {
+        this.accountList = accountList;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{

@@ -12,7 +12,7 @@ import java.time.LocalDate;
  *
  * @author Henning Wuehn
  */
-public class AccountingRecord {
+public class AccountingRecord extends Account {
 
     private IntegerProperty iD;
     private DoubleProperty amount;
@@ -26,6 +26,7 @@ public class AccountingRecord {
      * Default constructor.
      */
     public AccountingRecord() {
+        super();
 
     }
 

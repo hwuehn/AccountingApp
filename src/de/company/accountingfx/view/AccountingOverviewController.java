@@ -59,6 +59,8 @@ public class AccountingOverviewController {
     @FXML
     private TextField tagField;
 
+    @FXML Button submitButton;
+
     private AccountingRecord accountingRecord;
     private Account account;
 
@@ -202,7 +204,7 @@ public class AccountingOverviewController {
         this.mainApp = mainApp;
 
      // Add observable list data to the table
-       accountingRecordTable.setItems(mainApp.getAccountingRecordData());
+        accountingRecordTable.setItems(mainApp.getAccountingRecordData());
      }
 
     /**
@@ -248,26 +250,85 @@ public class AccountingOverviewController {
     @FXML
     public void setAccountingRecord() {
 
-        AccountingRecord accountingRecord = new AccountingRecord(Double.parseDouble(amountField.getText()),
-                debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
-                DateUtil.parse(dateField.getText()),
-                creditAccField.getSelectionModel().getSelectedItem(), tagField.getText());
+        AccountingRecord accountingRecord = new AccountingRecord();
 
-        this.accountingRecord.setAmount(Double.parseDouble(amountField.getText()));
-        this.accountingRecord.setDebitAcc(debitAccField.getSelectionModel().getSelectedItem());
-        this.accountingRecord.setDocNum(Integer.parseInt(docNumField.getText()));
-        this.accountingRecord.setDate(DateUtil.parse(dateField.getText()));
-        this.accountingRecord.setCreditAcc(creditAccField.getSelectionModel().getSelectedItem());
-        this.accountingRecord.setTags(tagField.getText());
+        if (isInputValid()) {
 
+            accountingRecord.setAmount(Double.parseDouble(amountField.getText()));
+            accountingRecord.setDebitAcc(debitAccField.getSelectionModel().getSelectedItem());
+            accountingRecord.setDocNum(Integer.parseInt(docNumField.getText()));
+            accountingRecord.setDate(DateUtil.parse(dateField.getText()));
+            accountingRecord.setCreditAcc(creditAccField.getSelectionModel().getSelectedItem());
+            accountingRecord.setTags(tagField.getText());
 
+            System.out.println(accountingRecord.getiD());
+            System.out.println(accountingRecord.getAmount());
+            System.out.println(accountingRecord.getDebitAcc());
+            System.out.println(accountingRecord.getDocNum());
+            System.out.println(accountingRecord.getDate());
+            System.out.println(accountingRecord.getCreditAcc());
+            System.out.println(accountingRecord.getTags());
 
-        //mainApp.getAccountingRecordData()
-
+            mainApp.getAccountingRecordData().add(accountingRecord);
+        }
     }
 
+    /**
+     * Validates the user input in the text fields.
+     *
+     * @return true if the input is valid
+     */
+    private boolean isInputValid() {
+        String errorMessage = "";
 
+        if (amountField.getText() == null || amountField.getText().length() == 0) {
+            errorMessage += "No valid amount!\n";
+        } else {
+            // try to parse the amount into an double.
+            try {
+                Double.parseDouble(amountField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid amount (must be an double)!\n";
+            }
+        }
 
+        if (docNumField.getText() == null || docNumField.getText().length() == 0) {
+            errorMessage += "No valid document number!\n";
+        } else {
+            // try to parse the postal code into an int.
+            try {
+                Integer.parseInt(docNumField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid document number (must be an integer)!\n";
+            }
+        }
+
+        if (dateField.getText() == null || dateField.getText().length() == 0) {
+            errorMessage += "No valid date!\n";
+        } else {
+            if (!DateUtil.validDate(dateField.getText())) {
+                errorMessage += "No valid date. Use the format dd.mm.yyyy!\n";
+            }
+        }
+
+        if (tagField.getText() == null || tagField.getText().length() == 0) {
+            errorMessage += "No valid tag!\n";
+        }
+
+        if (errorMessage.length() == 0) {
+            return true;
+        } else {
+            // Show the error message.
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid Fields");
+            alert.setHeaderText("Please correct invalid fields");
+            alert.setContentText(errorMessage);
+
+            alert.showAndWait();
+
+            return false;
+        }
+    }
 
 
 }
