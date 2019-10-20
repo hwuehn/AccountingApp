@@ -61,7 +61,7 @@ public class AccountingOverviewController {
 
     @FXML Button submitButton;
 
-    private AccountingRecord accountingRecord;
+   // private AccountingRecord accountingRecord;
     private Account account;
 
     // Reference to the main application.
@@ -250,26 +250,11 @@ public class AccountingOverviewController {
     @FXML
     public void setAccountingRecord() {
 
-        AccountingRecord accountingRecord = new AccountingRecord();
-
         if (isInputValid()) {
-
-            accountingRecord.setAmount(Double.parseDouble(amountField.getText()));
-            accountingRecord.setDebitAcc(debitAccField.getSelectionModel().getSelectedItem());
-            accountingRecord.setDocNum(Integer.parseInt(docNumField.getText()));
-            accountingRecord.setDate(DateUtil.parse(dateField.getText()));
-            accountingRecord.setCreditAcc(creditAccField.getSelectionModel().getSelectedItem());
-            accountingRecord.setTags(tagField.getText());
-
-            System.out.println(accountingRecord.getiD());
-            System.out.println(accountingRecord.getAmount());
-            System.out.println(accountingRecord.getDebitAcc());
-            System.out.println(accountingRecord.getDocNum());
-            System.out.println(accountingRecord.getDate());
-            System.out.println(accountingRecord.getCreditAcc());
-            System.out.println(accountingRecord.getTags());
-
-            mainApp.getAccountingRecordData().add(accountingRecord);
+            mainApp.getAccountingRecordData().add(new AccountingRecord(Double.parseDouble(amountField.getText()),
+                    debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
+                    DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
+                    tagField.getText()));
         }
     }
 
