@@ -1,8 +1,9 @@
 package de.company.accountingfx.view;
 
 import de.company.accountingfx.model.Account;
+import de.company.accountingfx.util.CounterId;
 import de.company.accountingfx.util.DateUtil;
-import de.company.accountingfx.util.IdCounter;
+import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,9 +15,8 @@ import de.company.accountingfx.model.AccountingRecord;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-import java.sql.SQLOutput;
-
 public class AccountingOverviewController {
+
     @FXML
     private TableView<AccountingRecord> accountingRecordTable;
     @FXML
@@ -58,6 +58,8 @@ public class AccountingOverviewController {
     private ComboBox<Account> creditAccField;
     @FXML
     private TextField tagField;
+
+    @FXML Button submitButton;
 
     private AccountingRecord accountingRecord;
     private Account account;
@@ -202,7 +204,7 @@ public class AccountingOverviewController {
         this.mainApp = mainApp;
 
      // Add observable list data to the table
-       accountingRecordTable.setItems(mainApp.getAccountingRecordData());
+        accountingRecordTable.setItems(mainApp.getAccountingRecordData());
      }
 
     /**
@@ -232,7 +234,7 @@ public class AccountingOverviewController {
     }
 
     /**
-     * Called when the user selects a accountingrecord. Showing details of the record.
+     * Called when the user selectss a accountingrecord. Showing details of the record.
      */
     @FXML
     private void handleSelectAccountingRecord() {
@@ -246,18 +248,11 @@ public class AccountingOverviewController {
      * Called when the user clicks the submit button. Inserts the userInput in the ne record..
      */
     @FXML
-    public void createAccountingRecord() {
+    public void setAccountingRecord() {
+
         AccountingRecord accountingRecord = new AccountingRecord();
-        IdCounter idCounter = new IdCounter();
 
         if (isInputValid()) {
-            System.out.println(idCounter);
-            System.out.println(Double.parseDouble(amountField.getText()));
-            System.out.println(debitAccField.getSelectionModel().getSelectedItem());
-            System.out.println(Integer.parseInt(docNumField.getText()));
-            System.out.println(DateUtil.parse(dateField.getText()));
-            System.out.println(creditAccField.getSelectionModel().getSelectedItem());
-            System.out.println(tagField.getText());
 
             accountingRecord.setAmount(Double.parseDouble(amountField.getText()));
             accountingRecord.setDebitAcc(debitAccField.getSelectionModel().getSelectedItem());
@@ -266,8 +261,15 @@ public class AccountingOverviewController {
             accountingRecord.setCreditAcc(creditAccField.getSelectionModel().getSelectedItem());
             accountingRecord.setTags(tagField.getText());
 
-            mainApp.addARecordToList(mainApp.getAccountingRecordData(), accountingRecord);
+            System.out.println(accountingRecord.getiD());
+            System.out.println(accountingRecord.getAmount());
+            System.out.println(accountingRecord.getDebitAcc());
+            System.out.println(accountingRecord.getDocNum());
+            System.out.println(accountingRecord.getDate());
+            System.out.println(accountingRecord.getCreditAcc());
+            System.out.println(accountingRecord.getTags());
 
+            mainApp.getAccountingRecordData().add(accountingRecord);
         }
     }
 
@@ -281,21 +283,19 @@ public class AccountingOverviewController {
 
         if (amountField.getText() == null || amountField.getText().length() == 0) {
             errorMessage += "No valid amount!\n";
-        }
-        else {
-            // try to parse the amount into an int.
+        } else {
+            // try to parse the amount into an double.
             try {
                 Double.parseDouble(amountField.getText());
-        } catch (NumberFormatException e) {
-                errorMessage += "No valid amount value (must be an double)!\n";
+            } catch (NumberFormatException e) {
+                errorMessage += "No valid amount (must be an double)!\n";
             }
         }
 
         if (docNumField.getText() == null || docNumField.getText().length() == 0) {
-            errorMessage += "No valid last document number!\n";
-        }
-        else {
-            // try to parse the doc number into an int.
+            errorMessage += "No valid document number!\n";
+        } else {
+            // try to parse the postal code into an int.
             try {
                 Integer.parseInt(docNumField.getText());
             } catch (NumberFormatException e) {

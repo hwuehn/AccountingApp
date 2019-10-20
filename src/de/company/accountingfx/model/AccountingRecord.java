@@ -1,6 +1,6 @@
 package de.company.accountingfx.model;
 
-import de.company.accountingfx.util.IdCounter;
+import de.company.accountingfx.util.CounterId;
 import de.company.accountingfx.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
@@ -12,17 +12,21 @@ import java.time.LocalDate;
  *
  * @author Henning Wuehn
  */
-public class AccountingRecord {
+public class AccountingRecord extends Account {
 
     private IntegerProperty iD;
-    private SimpleDoubleProperty amount;
+    private DoubleProperty amount;
     private ObjectProperty<Account> debitAcc;
     private IntegerProperty docNum;
     private ObjectProperty<LocalDate> date;
     private ObjectProperty<Account> creditAcc;
     private StringProperty tags;
 
+    /**
+     * Default constructor.
+     */
     public AccountingRecord() {
+        super();
 
     }
 
@@ -37,14 +41,13 @@ public class AccountingRecord {
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(IdCounter idCounter, Double amount, Account debitAcc, Integer docNum, LocalDate date,
+    public AccountingRecord(Double amount, Account debitAcc, Integer docNum, LocalDate date,
                             Account creditAcc, String tags) {
-        this.iD = new SimpleIntegerProperty(idCounter.getCounter());
+        this.iD = new SimpleIntegerProperty(new CounterId().getCounter());
         this.amount = new SimpleDoubleProperty(amount);
         this.debitAcc = new SimpleObjectProperty<>(debitAcc);
         this.docNum = new SimpleIntegerProperty(docNum);
-        this.date = new SimpleObjectProperty<LocalDate>(date);
-        //this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
+        this.date = new SimpleObjectProperty(date);
         this.creditAcc = new SimpleObjectProperty<>(creditAcc);
         this.tags = new SimpleStringProperty(tags);
     }
@@ -65,7 +68,7 @@ public class AccountingRecord {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount.set(amount);
     }
 
