@@ -4,6 +4,7 @@ import de.company.accountingfx.model.Account;
 import de.company.accountingfx.model.AccountingRecord;
 import de.company.accountingfx.model.AccountingRecordListWrapper;
 import de.company.accountingfx.view.AccountingOverviewController;
+import de.company.accountingfx.view.AddAccountDialogController;
 import de.company.accountingfx.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -14,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBContext;
@@ -236,6 +238,47 @@ public class MainApp extends Application {
             alert.showAndWait();
         }
     }
+
+    /**
+     * Opens a dialog to add the specified account. If the user
+     * clicks Push, the changes are saved into the provided account object and true
+     * is returned.
+     *
+     * @param account object to be created
+     * @return true if the user clicked Push, false otherwise.
+     */
+    public boolean showAccountAddDialog(Account account) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/AddAccountDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add Account");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the account into the controller.
+            AddAccountDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+            // Set the dialog icon.
+            dialogStage.getIcons().add(new Image("file:resources/images/edit.png"));
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isPushClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
         /**
          * Returns the main stage.
          * @return

@@ -68,31 +68,13 @@ public class AccountingOverviewController {
     @FXML
     private Button filterBtn;
 
-   // private AccountingRecord accountingRecord;
-    private Account account;
-
     // Reference to the main application.
     private MainApp mainApp;
 
     @FXML
     private ComboBox<Account> debitAccField;
 
-    // Add some accounts
-    Account fuhrpark = new Account("700","Fuhrpark");
-    Account kasse = new Account("1600","Kasse");
-    Account bank = new Account("1800","Bank");
-    Account reiningung = new Account("6330","Reinigung");
-    Account buerobedarf = new Account("6815","Buerobedarf");
 
-    public ObservableList<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(ObservableList<Account> accounts) {
-        this.accounts = accounts;
-    }
-
-    ObservableList<Account> accounts = FXCollections.observableArrayList(fuhrpark,kasse,bank,reiningung,buerobedarf);
 
     /**
      * The constructor.
@@ -137,10 +119,10 @@ public class AccountingOverviewController {
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
 
-        accounts = getAccounts();
-        debitAccField.setItems(FXCollections.observableArrayList(accounts));
+
+        debitAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
         debitAccField.getSelectionModel().selectFirst();
-        creditAccField.setItems(FXCollections.observableArrayList(accounts));
+        creditAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
         creditAccField.getSelectionModel().selectFirst();
         // list of values showed in combo box drop down
 

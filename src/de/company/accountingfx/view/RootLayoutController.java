@@ -1,6 +1,7 @@
 package de.company.accountingfx.view;
 
 import de.company.accountingfx.MainApp;
+import de.company.accountingfx.model.Account;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
@@ -106,6 +107,7 @@ public class RootLayoutController {
         alert.setHeaderText("About");
         alert.setContentText("Author: Henning Wuehn");
 
+
         alert.showAndWait();
     }
 
@@ -115,6 +117,13 @@ public class RootLayoutController {
     @FXML
     private void handleExit() {
         System.exit(0);
+    }
+
+    @FXML
+    private void handleEditAcc() {
+        Account account = new Account();
+        mainApp.showAccountAddDialog(account);
+        mainApp.getAccountList().add(account);
     }
 }
 
