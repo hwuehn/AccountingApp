@@ -111,14 +111,11 @@
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin></Button>
-                        <Button fx:id="filterBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleFilterBtn" prefHeight="73.0" prefWidth="155.0" text="Filter On" GridPane.columnIndex="5" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </GridPane.margin></Button>
                         <TextField fx:id="filterTextField" prefHeight="61.0" prefWidth="148.0" promptText="filter" GridPane.columnIndex="6" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin></TextField>
+                        <Label styleClass="label-bright" stylesheets="@DarkTheme.css" text="Filter here:" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane layoutX="7.0" layoutY="144.0" prefHeight="57.0" prefWidth="474.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
