@@ -2,31 +2,28 @@ package de.company.accountingfx.view;
 
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.Account;
-import javafx.beans.InvalidationListener;
-import javafx.collections.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.*;
 
 public class AddAccountDialogController {
 
     @FXML
-    private TextField accReferenceTextField;
-
-    @FXML
     private TextField accIdTextField;
-
     @FXML
     private TextField accTagTextField;
-
     @FXML
     private Button accPushBtn;
+    @FXML
+    private ListView<Account> listView = new ListView(accounts);;
 
     private Stage dialogStage;
-    private Account account;
     private boolean pushClicked = false;
 
     // Add some accounts
@@ -46,9 +43,6 @@ public class AddAccountDialogController {
         this.accounts = accounts;
     }
 
-    @FXML
-    private ListView<Account> listView = new ListView(accounts);;
-
     // Reference to the main application.
     private MainApp mainApp;
 
@@ -58,10 +52,8 @@ public class AddAccountDialogController {
      */
     @FXML
     public void initialize() {
-
         createCellFactory();
         listView.setItems(accounts);
-
     }
 
     /**
@@ -72,7 +64,6 @@ public class AddAccountDialogController {
 
     public void setDialogStage(Stage dialogStage) {
             this.dialogStage = dialogStage;
-
             // Set the dialog icon.
             //this.dialogStage.getIcons().add(new Image("file:resources/images/edit.png"));
     }
@@ -93,7 +84,6 @@ public class AddAccountDialogController {
      */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-
     }
 
     /**
@@ -101,25 +91,17 @@ public class AddAccountDialogController {
      */
     @FXML
     void handlePushBtn(ActionEvent event) {
-
         String iD = accIdTextField.getText();
-
         String text = accTagTextField.getText();
-
         accounts.add(new Account(iD, text));
-
-
         pushClicked = true;
-
     }
 
     public void createCellFactory() {
-
         listView.setCellFactory(param -> new ListCell<Account>() {
             @Override
             protected void updateItem(Account item, boolean empty) {
                 super.updateItem(item, empty);
-
                 if (empty || item == null || item.getAccID() == null) {
                     setText(null);
                 } else {
@@ -127,8 +109,5 @@ public class AddAccountDialogController {
                 }
             }
         });
-
     }
-
-
 }
