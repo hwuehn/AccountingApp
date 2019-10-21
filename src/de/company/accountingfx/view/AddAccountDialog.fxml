@@ -12,14 +12,14 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="463.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.company.accountingfx.view.AddAccountDialogController">
    <children>
-      <SplitPane dividerPositions="0.8621553884711779" layoutX="96.0" layoutY="160.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="351.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.7543859649122807" layoutX="96.0" layoutY="160.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="351.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
                   <VBox layoutX="117.0" layoutY="6.0" prefHeight="197.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label styleClass="label-header" text="Accountlist" />
-                        <ListView fx:id="accListView" prefHeight="284.0" prefWidth="351.0" />
+                        <ListView fx:id="listView" prefHeight="284.0" prefWidth="351.0" />
                      </children>
                   </VBox>
                </children>

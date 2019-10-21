@@ -8,6 +8,7 @@ import javafx.beans.property.*;
  * @author Henning Wuehn
  */
 public class Account {
+
     private StringProperty accID;
     private StringProperty accTag;
     private DoubleProperty initialBalance;

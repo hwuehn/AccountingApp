@@ -2,20 +2,19 @@ package de.company.accountingfx.view;
 
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.Account;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.InvalidationListener;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+
+import java.util.*;
 
 public class AddAccountDialogController {
 
     @FXML
-    private ListView<Account> accListView;
+    private TextField accReferenceTextField;
 
     @FXML
     private TextField accIdTextField;
@@ -31,11 +30,13 @@ public class AddAccountDialogController {
     private boolean pushClicked = false;
 
     // Add some accounts
-    static Account fuhrpark = new Account("700","Fuhrpark");
-    static Account kasse = new Account("1600","Kasse");
-    static Account bank = new Account("1800","Bank");
-    static Account reiningung = new Account("6330","Reinigung");
-    static Account buerobedarf = new Account("6815","Buerobedarf");
+    static private ObservableList<Account> accounts = FXCollections.observableArrayList(
+            new Account("700","Fuhrpark"),
+            new Account("1600","Kasse"),
+            new Account("1800","Bank"),
+            new Account("6330","Reinigung"),
+            new Account("6815","Buerobedarf")
+    );
 
     public static ObservableList<Account> getAccounts() {
         return accounts;
@@ -45,21 +46,22 @@ public class AddAccountDialogController {
         this.accounts = accounts;
     }
 
-    static private ObservableList<Account> accounts = FXCollections.observableArrayList(fuhrpark,kasse,bank,reiningung,buerobedarf);
+    @FXML
+    private ListView<Account> listView = new ListView(accounts);;
 
     // Reference to the main application.
     private MainApp mainApp;
 
-    public AddAccountDialogController() {
-
-    }
-
-    /**
+        /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
      */
     @FXML
     public void initialize() {
+
+        createCellFactory();
+        listView.setItems(accounts);
+
     }
 
     /**
@@ -68,7 +70,7 @@ public class AddAccountDialogController {
     * @param dialogStage
     */
 
-        public void setDialogStage(Stage dialogStage) {
+    public void setDialogStage(Stage dialogStage) {
             this.dialogStage = dialogStage;
 
             // Set the dialog icon.
@@ -92,9 +94,6 @@ public class AddAccountDialogController {
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 
-        // Add observable list data to the view
-        accListView = new ListView<Account>(accounts);
-        accListView.setItems(accounts);
     }
 
     /**
@@ -103,14 +102,33 @@ public class AddAccountDialogController {
     @FXML
     void handlePushBtn(ActionEvent event) {
 
-        Account account = new Account();
-        account.setAccID(accIdTextField.getText());
-        account.setAccTag(accTagTextField.getText());
+        String iD = accIdTextField.getText();
 
-        accounts.add(account);
+        String text = accTagTextField.getText();
+
+        accounts.add(new Account(iD, text));
+
 
         pushClicked = true;
 
     }
+
+    public void createCellFactory() {
+
+        listView.setCellFactory(param -> new ListCell<Account>() {
+            @Override
+            protected void updateItem(Account item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getAccID() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getAccID() + " " + item.getAccTag());
+                }
+            }
+        });
+
+    }
+
 
 }
