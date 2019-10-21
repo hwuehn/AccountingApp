@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 /**
- * Model class for a AccountingRecord.
+ * Model class for a Record.
  *
  * @author Henning Wuehn
  */
-public class AccountingRecord extends Account {
+public class Record extends Account {
 
     private IntegerProperty iD;
     private DoubleProperty amount;
@@ -25,7 +25,7 @@ public class AccountingRecord extends Account {
     /**
      * Default constructor.
      */
-    public AccountingRecord() {
+    public Record() {
         super();
 
     }
@@ -41,8 +41,8 @@ public class AccountingRecord extends Account {
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(Double amount, Account debitAcc, Integer docNum, LocalDate date,
-                            Account creditAcc, String tags) {
+    public Record(Double amount, Account debitAcc, Integer docNum, LocalDate date,
+                  Account creditAcc, String tags) {
         this.iD = new SimpleIntegerProperty(new CounterId().getCounter());
         this.amount = new SimpleDoubleProperty(amount);
         this.debitAcc = new SimpleObjectProperty<>(debitAcc);

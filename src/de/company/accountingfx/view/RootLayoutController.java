@@ -35,7 +35,7 @@ public class RootLayoutController {
      */
     @FXML
     private void handleNew() {
-        mainApp.getAccountingRecordData().clear();
+        mainApp.getRecordData().clear();
         mainApp.setRecordFilePath(null);
     }
 

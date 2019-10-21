@@ -1,10 +1,10 @@
 package de.company.accountingfx;
 
 import de.company.accountingfx.model.Account;
-import de.company.accountingfx.model.AccountingRecord;
-import de.company.accountingfx.model.AccountingRecordListWrapper;
-import de.company.accountingfx.view.AccountingOverviewController;
-import de.company.accountingfx.view.AddAccountDialogController;
+import de.company.accountingfx.model.Record;
+import de.company.accountingfx.model.RecordListWrapper;
+import de.company.accountingfx.view.BookingViewController;
+import de.company.accountingfx.view.AccountAdministrationController;
 import de.company.accountingfx.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.prefs.Preferences;
 
+
 public class MainApp extends Application {
 
     private Stage primaryStage;
@@ -34,7 +35,7 @@ public class MainApp extends Application {
     /**
      * The data as an observable list of AccountingRecords.
      */
-    private ObservableList<AccountingRecord> accountingRecordData = FXCollections.observableArrayList();
+    private ObservableList<Record> recordData = FXCollections.observableArrayList();
     private ObservableList<Account> accountList = FXCollections.observableArrayList();
 
     /**
@@ -51,15 +52,15 @@ public class MainApp extends Application {
         accountList.addAll(fuhrpark,kasse,bank,reiningung,buerobedarf);
 
         // Add some sample data
-        accountingRecordData.add(new AccountingRecord(10000.00, fuhrpark,
+        recordData.add(new Record(10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(30.00, reiningung,
+        recordData.add(new Record(30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
+        recordData.add(new Record( 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord( 160.00, buerobedarf,
+        recordData.add(new Record( 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
+        recordData.add(new Record( 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
     }
 
@@ -67,8 +68,8 @@ public class MainApp extends Application {
      * Returns the data as an observable list of AccountingRecords and Accounts.
      * @return
      */
-    public ObservableList<AccountingRecord> getAccountingRecordData() {
-        return accountingRecordData;
+    public ObservableList<Record> getRecordData() {
+        return recordData;
     }
     public ObservableList<Account> getAccountList() {return accountList; }
 
@@ -124,19 +125,75 @@ public class MainApp extends Application {
             try {
                 // Load accounting overview.
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/AccountingOverview.fxml"));
+                loader.setLocation(MainApp.class.getResource("view/BookingView.fxml"));
                 AnchorPane accountingOverview = (AnchorPane) loader.load();
 
                 // Set person overview into the center of root layout.
                 rootLayout.setCenter(accountingOverview);
 
                 // Give the controller access to the main app.
-                AccountingOverviewController controller = loader.getController();
+                BookingViewController controller = loader.getController();
                 controller.setMainApp(this);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+
+
+
+
+
+
+
+
+    /**
+     * Opens a dialog to add the specified account. If the user
+     * clicks Push, the changes are saved into the provided account object and true
+     * is returned.
+     *
+     * @param account object to be created
+     * @return true if the user clicked Push, false otherwise.
+     */
+    public boolean showAccountAddDialog(Account account) {
+        try {
+            // Load the fxml file and create a new stage for the popup dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/AccountAdministration.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Add Account");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the account into the controller.
+            AccountAdministrationController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+            // Set the dialog icon.
+            dialogStage.getIcons().add(new Image("file:resources/images/edit.png"));
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isPushClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+        /**
+         * Returns the main stage.
+         * @return
+         */
+        public Stage getPrimaryStage() {
+            return primaryStage;
         }
 
     /**
@@ -186,14 +243,14 @@ public class MainApp extends Application {
     public void loadRecordDataFromFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(AccountingRecordListWrapper.class);
+                    .newInstance(RecordListWrapper.class);
             Unmarshaller um = context.createUnmarshaller();
 
             // Reading XML from the file and unmarshalling.
-            AccountingRecordListWrapper wrapper = (AccountingRecordListWrapper) um.unmarshal(file);
+            RecordListWrapper wrapper = (RecordListWrapper) um.unmarshal(file);
 
-            accountingRecordData.clear();
-            accountingRecordData.addAll(wrapper.getAccountingRecords());
+            recordData.clear();
+            recordData.addAll(wrapper.getRecords());
 
             // Save the file path to the registry.
             setRecordFilePath(file);
@@ -209,20 +266,20 @@ public class MainApp extends Application {
     }
 
     /**
-     * Saves the current person data to the specified file.
+     * Saves the current record data to the specified file.
      *
      * @param file
      */
     public void saveRecordDataToFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(AccountingRecordListWrapper.class);
+                    .newInstance(RecordListWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Wrapping our record data.
-            AccountingRecordListWrapper wrapper = new AccountingRecordListWrapper();
-            wrapper.setAccountingRecords(accountingRecordData);
+            RecordListWrapper wrapper = new RecordListWrapper();
+            wrapper.setRecords(recordData);
 
             // Marshalling and saving XML to the file.
             m.marshal(wrapper, file);
@@ -238,54 +295,6 @@ public class MainApp extends Application {
             alert.showAndWait();
         }
     }
-
-    /**
-     * Opens a dialog to add the specified account. If the user
-     * clicks Push, the changes are saved into the provided account object and true
-     * is returned.
-     *
-     * @param account object to be created
-     * @return true if the user clicked Push, false otherwise.
-     */
-    public boolean showAccountAddDialog(Account account) {
-        try {
-            // Load the fxml file and create a new stage for the popup dialog.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/AddAccountDialog.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
-
-            // Create the dialog Stage.
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Add Account");
-            dialogStage.initModality(Modality.WINDOW_MODAL);
-            dialogStage.initOwner(primaryStage);
-            Scene scene = new Scene(page);
-            dialogStage.setScene(scene);
-
-            // Set the account into the controller.
-            AddAccountDialogController controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-
-            // Set the dialog icon.
-            dialogStage.getIcons().add(new Image("file:resources/images/edit.png"));
-
-            // Show the dialog and wait until the user closes it
-            dialogStage.showAndWait();
-
-            return controller.isPushClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-        /**
-         * Returns the main stage.
-         * @return
-         */
-        public Stage getPrimaryStage() {
-            return primaryStage;
-        }
 
     public static void main(String[] args) {
         launch(args);
