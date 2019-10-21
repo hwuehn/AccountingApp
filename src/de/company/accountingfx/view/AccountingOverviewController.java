@@ -108,6 +108,7 @@ public class AccountingOverviewController {
         // Listen for selection changes and show the accoundRecord details when changed.
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
+
         debitAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
         debitAccField.getSelectionModel().selectFirst();
         creditAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
@@ -320,5 +321,13 @@ public class AccountingOverviewController {
         sortedData.comparatorProperty().bind(accountingRecordTable.comparatorProperty());
         // 5. Add sorted (and filtered) data to the table.
         accountingRecordTable.setItems(sortedData);
+    }
+
+    public ComboBox<Account> getCreditAccField() {
+        return creditAccField;
+    }
+
+    public ComboBox<Account> getDebitAccField() {
+        return debitAccField;
     }
 }

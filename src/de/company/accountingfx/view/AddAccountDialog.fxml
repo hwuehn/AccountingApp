@@ -24,9 +24,9 @@
                   </VBox>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane>
                <children>
-                  <HBox layoutX="96.0" layoutY="-24.0" prefHeight="52.0" prefWidth="351.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox layoutX="96.0" layoutY="-24.0" prefHeight="49.0" prefWidth="463.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <TextField fx:id="accIdTextField" prefHeight="42.0" prefWidth="193.0" promptText="identifier">
                            <HBox.margin>
@@ -39,6 +39,15 @@
                            </HBox.margin>
                         </TextField>
                         <Button fx:id="accPushBtn" mnemonicParsing="false" onAction="#handlePushBtn" prefHeight="42.0" prefWidth="135.0" text="Push">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" layoutY="51.0" prefHeight="49.0" prefWidth="463.0">
+                     <children>
+                        <Button fx:id="accSaveBtn" alignment="CENTER" mnemonicParsing="false" onAction="#saveAccList" prefHeight="39.0" prefWidth="106.0" text="Save">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>

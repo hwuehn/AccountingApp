@@ -2,15 +2,19 @@ package de.company.accountingfx.view;
 
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.Account;
+import de.company.accountingfx.model.AccountListWrapper;
+import de.company.accountingfx.model.AccountingRecordListWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import java.io.File;
 
 public class AddAccountDialogController {
 
@@ -25,6 +29,7 @@ public class AddAccountDialogController {
 
     private Stage dialogStage;
     private boolean pushClicked = false;
+    private AccountingOverviewController accountingOverviewController = new AccountingOverviewController();
 
     // Add some accounts
     static private ObservableList<Account> accounts = FXCollections.observableArrayList(
@@ -94,7 +99,8 @@ public class AddAccountDialogController {
         String iD = accIdTextField.getText();
         String text = accTagTextField.getText();
         accounts.add(new Account(iD, text));
-        pushClicked = true;
+
+
     }
 
     public void createCellFactory() {
@@ -110,4 +116,62 @@ public class AddAccountDialogController {
             }
         });
     }
+
+    public void saveAccListToFile(File file) {
+        try {
+            JAXBContext context = JAXBContext
+                    .newInstance(AccountListWrapper.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            // Wrapping our list data.
+            AccountListWrapper wrapper = new AccountListWrapper();
+            wrapper.setAccounts(accounts);
+
+            // Marshalling and saving XML to the file.
+            m.marshal(wrapper, file);
+
+            // Save the file.
+            returnPathFile("/save/accounts.xml");
+        } catch (Exception e) { // catches ANY exception
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Could not save data");
+            alert.setContentText("Could not save data to file:\n" + file.getPath());
+
+            alert.showAndWait();
+        }
+    }
+
+    public String returnPathFile(String filename){
+        String path=getClass().getResource(filename).getPath();
+        path=path.substring(6);
+        int p=path.lastIndexOf("/dist/");
+        if (p>0){
+            path=path.substring(0, p);
+            path+="/src"+filename;
+        }
+        return path;
+    }
+
+    public void saveAccList() {
+        FileChooser fileChooser = new FileChooser();
+
+        // Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Show save file dialog
+        File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+
+        if (file != null) {
+            // Make sure it has the correct extension
+            if (!file.getPath().endsWith(".xml")) {
+                file = new File(file.getPath() + ".xml");
+            }
+            saveAccListToFile(file);
+        }
+    }
+
 }
