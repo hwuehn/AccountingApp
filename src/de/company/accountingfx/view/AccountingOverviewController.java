@@ -8,6 +8,8 @@ import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import de.company.accountingfx.MainApp;
@@ -60,6 +62,11 @@ public class AccountingOverviewController {
     private TextField tagField;
 
     @FXML Button submitButton;
+
+    @FXML
+    private TextField filterTextField;
+    @FXML
+    private Button filterBtn;
 
    // private AccountingRecord accountingRecord;
     private Account account;
@@ -205,6 +212,7 @@ public class AccountingOverviewController {
 
      // Add observable list data to the table
         accountingRecordTable.setItems(mainApp.getAccountingRecordData());
+        enableFiltering();
      }
 
     /**
@@ -315,5 +323,48 @@ public class AccountingOverviewController {
         }
     }
 
+    public void enableFiltering() {
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        FilteredList<AccountingRecord> filteredData = new FilteredList<>(mainApp.getAccountingRecordData(), r -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(record -> {
+                // If filter text is empty, display all records.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare all columns with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (record.getDebitAcc().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches debitAcc.
+                } else if (record.getCreditAcc().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches creditAcc.
+                } else if (record.getiD().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches iD.
+                } else if (record.getAmount().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches amount.
+                } else if (record.getDate().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches date.
+                } else if (record.getDocNum().toString().contains(lowerCaseFilter)) {
+                    return true; // Filter matches docNum.
+                } else if (record.getTags().contains(lowerCaseFilter)) {
+                    return true; // Filter matches tags.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<AccountingRecord> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comperator to the TableView comperator.
+        sortedData.comparatorProperty().bind(accountingRecordTable.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        accountingRecordTable.setItems(sortedData);
+    }
 
 }
