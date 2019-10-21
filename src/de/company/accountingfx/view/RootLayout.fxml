@@ -11,11 +11,11 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Open..." />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As..." />
-              <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem fx:id="newBtn" mnemonicParsing="false" onAction="#handleNew" text="New" />
+                  <MenuItem fx:id="openBtn" mnemonicParsing="false" onAction="#handleOpen" text="Open..." />
+                  <MenuItem fx:id="saveBtn" mnemonicParsing="false" onAction="#handleSave" text="Save" />
+                  <MenuItem fx:id="saveAsBtn" mnemonicParsing="false" onAction="#handleSaveAs" text="Save As..." />
+              <MenuItem fx:id="exitBtn" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -30,7 +30,7 @@
             </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="aboutBtn" mnemonicParsing="false" onAction="#handleAbout" text="About" />
             </items>
           </Menu>
         </menus>
