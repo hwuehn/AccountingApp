@@ -33,6 +33,10 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
+    public void setAccountingRecordData(ObservableList<AccountingRecord> accountingRecordData) {
+        this.accountingRecordData = accountingRecordData;
+    }
+
     /**
      * The data as an observable list of AccountingRecords.
      */
@@ -192,11 +196,13 @@ public class MainApp extends Application {
             Unmarshaller um = context.createUnmarshaller();
 
             // Reading XML from the file and unmarshalling.
+            System.out.println("1");
+
             AccountingRecordListWrapper wrapper = (AccountingRecordListWrapper) um.unmarshal(file);
 
-            accountingRecordData.clear();
-            //accountingRecordData.addAll(wrapper.getAccountingRecords());
+            System.out.println("2");
 
+            accountingRecordData.clear();
             accountingRecordData.addAll(wrapper.getAccountingRecords());
 
             // Save the file path to the registry.
@@ -207,7 +213,7 @@ public class MainApp extends Application {
             alert.setTitle("Error");
             alert.setHeaderText("Could not load data");
             alert.setContentText("Could not load data from file:\n" + file.getPath());
-
+            e.printStackTrace();
             alert.showAndWait();
         }
     }

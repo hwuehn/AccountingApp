@@ -1,4 +1,7 @@
 package de.company.accountingfx.model;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
@@ -9,18 +12,18 @@ import java.util.List;
  *
  * @author Henning Wuehn
  */
-@XmlRootElement(name = "accountingRecords")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "accountingrecords")
 public class AccountingRecordListWrapper {
 
     private List<AccountingRecord> accountingRecords;
 
-    @XmlElement(name = "accountingRecord")
+    //@XmlElement(name = "accountingrecord")
     public List<AccountingRecord> getAccountingRecords() {
         return accountingRecords;
     }
 
     public void setAccountingRecords(List<AccountingRecord> accountingRecords) {
         this.accountingRecords = accountingRecords;
-        System.out.println(accountingRecords);
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<accountingRecords>
-    <accountingRecord>
+<accountingrecords>
+    <accountingRecords>
         <amount>10000.0</amount>
         <creditAcc>
             <accID>1800</accID>
@@ -13,8 +13,8 @@
         </debitAcc>
         <docNum>123</docNum>
         <tags>PKW</tags>
-    </accountingRecord>
-    <accountingRecord>
+    </accountingRecords>
+    <accountingRecords>
         <amount>30.0</amount>
         <creditAcc>
             <accID>1600</accID>
@@ -27,8 +27,8 @@
         </debitAcc>
         <docNum>456</docNum>
         <tags>Reinigungsmittel</tags>
-    </accountingRecord>
-    <accountingRecord>
+    </accountingRecords>
+    <accountingRecords>
         <amount>45.0</amount>
         <creditAcc>
             <accID>1800</accID>
@@ -41,8 +41,8 @@
         </debitAcc>
         <docNum>789</docNum>
         <tags>Ordner</tags>
-    </accountingRecord>
-    <accountingRecord>
+    </accountingRecords>
+    <accountingRecords>
         <amount>160.0</amount>
         <creditAcc>
             <accID>1800</accID>
@@ -55,8 +55,8 @@
         </debitAcc>
         <docNum>135</docNum>
         <tags>Maus &amp; Tastatur</tags>
-    </accountingRecord>
-    <accountingRecord>
+    </accountingRecords>
+    <accountingRecords>
         <amount>45.0</amount>
         <creditAcc>
             <accID>1600</accID>
@@ -69,19 +69,19 @@
         </debitAcc>
         <docNum>999</docNum>
         <tags>Kasten Wasser</tags>
-    </accountingRecord>
-    <accountingRecord>
+    </accountingRecords>
+    <accountingRecords>
         <amount>100.0</amount>
         <creditAcc>
-            <accID>1600</accID>
-            <accTag>Kasse</accTag>
+            <accID>700</accID>
+            <accTag>Fuhrpark</accTag>
         </creditAcc>
         <date>2019-01-01</date>
         <debitAcc>
-            <accID>6815</accID>
-            <accTag>Buerobedarf</accTag>
+            <accID>700</accID>
+            <accTag>Fuhrpark</accTag>
         </debitAcc>
         <docNum>123</docNum>
-        <tags>Reinigung</tags>
-    </accountingRecord>
-</accountingRecords>
+        <tags>asd</tags>
+    </accountingRecords>
+</accountingrecords>
