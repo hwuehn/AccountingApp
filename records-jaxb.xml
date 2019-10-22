@@ -70,4 +70,18 @@
         <docNum>999</docNum>
         <tags>Kasten Wasser</tags>
     </accountingRecord>
+    <accountingRecord>
+        <amount>100.0</amount>
+        <creditAcc>
+            <accID>1600</accID>
+            <accTag>Kasse</accTag>
+        </creditAcc>
+        <date>2019-01-01</date>
+        <debitAcc>
+            <accID>6815</accID>
+            <accTag>Buerobedarf</accTag>
+        </debitAcc>
+        <docNum>123</docNum>
+        <tags>Reinigung</tags>
+    </accountingRecord>
 </accountingRecords>

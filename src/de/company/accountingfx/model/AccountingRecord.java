@@ -26,8 +26,6 @@ public class AccountingRecord {
      * Default constructor.
      */
     public AccountingRecord() {
-        super();
-
     }
 
      /**

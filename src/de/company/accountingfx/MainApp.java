@@ -22,12 +22,14 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.prefs.Preferences;
 
 public class MainApp extends Application {
 
+    private static final String RECORDS_XML = "./records-jaxb.xml";
     private Stage primaryStage;
     private BorderPane rootLayout;
 
@@ -193,6 +195,8 @@ public class MainApp extends Application {
             AccountingRecordListWrapper wrapper = (AccountingRecordListWrapper) um.unmarshal(file);
 
             accountingRecordData.clear();
+            //accountingRecordData.addAll(wrapper.getAccountingRecords());
+
             accountingRecordData.addAll(wrapper.getAccountingRecords());
 
             // Save the file path to the registry.
@@ -213,7 +217,7 @@ public class MainApp extends Application {
      *
      * @param file
      */
-    private static final String RECORDS_XML = "./records-jaxb.xml";
+
 
     public void saveRecordDataToFile(File file) {
         try {

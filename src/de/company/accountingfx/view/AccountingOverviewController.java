@@ -295,7 +295,8 @@ public class AccountingOverviewController {
                     return true;
                 }
                 // Compare all columns with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
+                String lowerCaseFilter = newValue; //.toLowerCase();
+
                 if (record.getDebitAcc().toString().contains(lowerCaseFilter)) {
                     return true; // Filter matches debitAcc.
                 } else if (record.getCreditAcc().toString().contains(lowerCaseFilter)) {
