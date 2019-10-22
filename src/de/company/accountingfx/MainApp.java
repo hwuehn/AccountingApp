@@ -213,16 +213,24 @@ public class MainApp extends Application {
      *
      * @param file
      */
+    private static final String RECORDS_XML = "./records-jaxb.xml";
+
     public void saveRecordDataToFile(File file) {
         try {
             JAXBContext context = JAXBContext
                     .newInstance(AccountingRecordListWrapper.class);
             Marshaller m = context.createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
             // Wrapping our record data.
             AccountingRecordListWrapper wrapper = new AccountingRecordListWrapper();
             wrapper.setAccountingRecords(accountingRecordData);
+
+            // Write to System.out
+            m.marshal(wrapper, System.out);
+
+            // Write to File
+            m.marshal(wrapper, new File(RECORDS_XML));
 
             // Marshalling and saving XML to the file.
             m.marshal(wrapper, file);

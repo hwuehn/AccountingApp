@@ -21,5 +21,6 @@ public class AccountingRecordListWrapper {
 
     public void setAccountingRecords(List<AccountingRecord> accountingRecords) {
         this.accountingRecords = accountingRecords;
+        System.out.println(accountingRecords);
     }
 }
