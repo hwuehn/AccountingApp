@@ -26,6 +26,14 @@ public class AccountingRecord {
      * Default constructor.
      */
     public AccountingRecord() {
+        this.id = new SimpleIntegerProperty();
+        this.amount = new SimpleDoubleProperty();
+        this.debitAcc = new SimpleObjectProperty<Account>();
+        this.docNum = new SimpleIntegerProperty();
+        this.date = new SimpleObjectProperty();
+        this.creditAcc = new SimpleObjectProperty<Account>();
+        this.tags = new SimpleStringProperty();
+
     }
 
      /**

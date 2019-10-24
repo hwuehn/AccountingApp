@@ -20,7 +20,9 @@ public class Account {
     }
 
     public Account() {
-
+        this.accID = new SimpleStringProperty();
+        this.accTag = new SimpleStringProperty();
+        this.initialBalance = new SimpleDoubleProperty();
     }
 
     public String getAccID() {
