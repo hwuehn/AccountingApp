@@ -1,8 +1,8 @@
 package de.company.accountingfx.view;
 
 import de.company.accountingfx.MainApp;
-import de.company.accountingfx.model.Account;
 import de.company.accountingfx.model.AccListWrapper;
+import de.company.accountingfx.model.Account;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,11 +24,11 @@ public class AccountAdministrationController {
     @FXML
     private Button accPushBtn;
     @FXML
-    private ListView<Account> listView = new ListView(accounts);;
+    private ListView<Account> listView = new ListView(accounts);
 
     private Stage dialogStage;
     private boolean pushClicked = false;
-    private BookingViewController bookingViewController = new BookingViewController();
+
 
     // Add some accounts
     static private ObservableList<Account> accounts = FXCollections.observableArrayList(
@@ -44,7 +44,7 @@ public class AccountAdministrationController {
     }
 
     public void setAccounts(ObservableList<Account> accounts) {
-        this.accounts = accounts;
+        AccountAdministrationController.accounts = accounts;
     }
 
     // Reference to the main application.

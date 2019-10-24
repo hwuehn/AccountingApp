@@ -1,11 +1,11 @@
 package de.company.accountingfx;
 
 import de.company.accountingfx.model.Account;
-import de.company.accountingfx.model.AccountingRecord;
 import de.company.accountingfx.model.AccountingRecordListWrapper;
+import de.company.accountingfx.model.Record;
 import de.company.accountingfx.util.CounterId;
-import de.company.accountingfx.view.AccountingOverviewController;
-import de.company.accountingfx.view.AddAccountDialogController;
+import de.company.accountingfx.view.AccountAdministrationController;
+import de.company.accountingfx.view.BookingViewController;
 import de.company.accountingfx.view.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -23,7 +23,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.prefs.Preferences;
@@ -34,15 +33,10 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    public void setAccountingRecordData(ObservableList<AccountingRecord> accountingRecordData) {
-        this.accountingRecordData = accountingRecordData;
-    }
-
     /**
      * The data as an observable list of AccountingRecords.
      */
-    private ObservableList<AccountingRecord> accountingRecordData = FXCollections.observableArrayList();
-    private ObservableList<Account> accountList = FXCollections.observableArrayList();
+    private ObservableList<Record> recordData = FXCollections.observableArrayList();
 
     /**
      * Constructor
@@ -58,24 +52,30 @@ public class MainApp extends Application {
         accountList.addAll(fuhrpark,kasse,bank,reiningung,buerobedarf);
 
         // Add some sample data
-        accountingRecordData.add(new AccountingRecord(new CounterId(), 10000.00, fuhrpark,
+        recordData.add(new Record(new CounterId(), 10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(new CounterId(),30.00, reiningung,
+        recordData.add(new Record(new CounterId(), 30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord(new CounterId(), 45.00, buerobedarf,
+        recordData.add(new Record(new CounterId(), 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord(new CounterId(), 160.00, buerobedarf,
+        recordData.add(new Record(new CounterId(), 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord(new CounterId(), 45.00, buerobedarf,
+        recordData.add(new Record(new CounterId(), 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
     }
+
+    private ObservableList<Account> accountList = FXCollections.observableArrayList();
 
     /**
      * Returns the data as an observable list of AccountingRecords and Accounts.
      * @return
      */
-    public ObservableList<AccountingRecord> getAccountingRecordData() {
-        return accountingRecordData;
+    public ObservableList<Record> getRecordData() {
+        return recordData;
+    }
+
+    public void setRecordData(ObservableList<Record> recordData) {
+        this.recordData = recordData;
     }
     public ObservableList<Account> getAccountList() {return accountList; }
 
@@ -102,7 +102,7 @@ public class MainApp extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class
                     .getResource("view/RootLayout.fxml"));
-            rootLayout = (BorderPane) loader.load();
+            rootLayout = loader.load();
 
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
@@ -131,14 +131,14 @@ public class MainApp extends Application {
             try {
                 // Load accounting overview.
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/AccountingOverview.fxml"));
-                AnchorPane accountingOverview = (AnchorPane) loader.load();
+                loader.setLocation(MainApp.class.getResource("view/BookingView.fxml"));
+                AnchorPane accountingOverview = loader.load();
 
                 // Set person overview into the center of root layout.
                 rootLayout.setCenter(accountingOverview);
 
                 // Give the controller access to the main app.
-                AccountingOverviewController controller = loader.getController();
+                BookingViewController controller = loader.getController();
                 controller.setMainApp(this);
 
             } catch (IOException e) {
@@ -203,8 +203,8 @@ public class MainApp extends Application {
 
             System.out.println("2");
 
-            accountingRecordData.clear();
-            accountingRecordData.addAll(wrapper.getAccountingRecords());
+            recordData.clear();
+            recordData.addAll(wrapper.getRecords());
 
             // Save the file path to the registry.
             setRecordFilePath(file);
@@ -235,7 +235,7 @@ public class MainApp extends Application {
 
             // Wrapping our record data.
             AccountingRecordListWrapper wrapper = new AccountingRecordListWrapper();
-            wrapper.setAccountingRecords(accountingRecordData);
+            wrapper.setRecords(recordData);
 
             // Write to System.out
             m.marshal(wrapper, System.out);
@@ -271,7 +271,7 @@ public class MainApp extends Application {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/AddAccountDialog.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane page = loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -282,7 +282,7 @@ public class MainApp extends Application {
             dialogStage.setScene(scene);
 
             // Set the account into the controller.
-            AddAccountDialogController controller = loader.getController();
+            AccountAdministrationController controller = loader.getController();
             controller.setDialogStage(dialogStage);
 
             // Set the dialog icon.

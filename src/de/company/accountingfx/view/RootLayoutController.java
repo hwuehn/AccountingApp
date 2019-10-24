@@ -2,20 +2,13 @@ package de.company.accountingfx.view;
 
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.Account;
-import de.company.accountingfx.model.AccountingRecord;
-import de.company.accountingfx.model.AccountingRecordListWrapper;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 /**
  * The controller for the root layout. The root layout provides the basic

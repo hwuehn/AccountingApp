@@ -1,40 +1,38 @@
 package de.company.accountingfx.view;
 
+import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.Account;
+import de.company.accountingfx.model.Record;
 import de.company.accountingfx.util.CounterId;
 import de.company.accountingfx.util.DateUtil;
-import javafx.beans.Observable;
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import de.company.accountingfx.MainApp;
-import de.company.accountingfx.model.AccountingRecord;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-public class AccountingOverviewController {
+public class BookingViewController {
 
     @FXML
-    private TableView<AccountingRecord> accountingRecordTable;
+    private TableView<Record> accountingRecordTable;
     @FXML
-    private TableColumn<AccountingRecord, String> iDColumn;
+    private TableColumn<Record, String> iDColumn;
     @FXML
-    private TableColumn<AccountingRecord, String> amountColumn;
+    private TableColumn<Record, String> amountColumn;
     @FXML
-    private TableColumn<AccountingRecord, String> debitAccColumn;
+    private TableColumn<Record, String> debitAccColumn;
     @FXML
-    private TableColumn<AccountingRecord, String> docNumColumn;
+    private TableColumn<Record, String> docNumColumn;
     @FXML
-    private TableColumn<AccountingRecord, String> dateColumn;
+    private TableColumn<Record, String> dateColumn;
     @FXML
-    private TableColumn<AccountingRecord, String> creditAccColumn;
+    private TableColumn<Record, String> creditAccColumn;
     @FXML
-    private TableColumn<AccountingRecord, String> tagColumn;
+    private TableColumn<Record, String> tagColumn;
     @FXML
     private Label debitAccIDLabel;
     @FXML
@@ -73,7 +71,7 @@ public class AccountingOverviewController {
      * The constructor.
      * The constructor is called before the initialize() method.
      */
-    public AccountingOverviewController() {
+    public BookingViewController() {
     }
 
     /**
@@ -85,17 +83,17 @@ public class AccountingOverviewController {
         // Initialize the accountingRecord table with the seven columns.
         iDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asString());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
-        debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
+        debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Record, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Record, String> param) {
                 return new SimpleStringProperty(param.getValue().getDebitAcc().getAccID());
             }
         });
         docNumColumn.setCellValueFactory(cellData -> cellData.getValue().docNumProperty().asString());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty().asString());
-        creditAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
+        creditAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Record, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Record, String> param) {
                 return new SimpleStringProperty(param.getValue().getCreditAcc().getAccID());
             }
         });
@@ -109,9 +107,9 @@ public class AccountingOverviewController {
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
 
-        debitAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
+        debitAccField.setItems(FXCollections.observableArrayList(AccountAdministrationController.getAccounts()));
         debitAccField.getSelectionModel().selectFirst();
-        creditAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
+        creditAccField.setItems(FXCollections.observableArrayList(AccountAdministrationController.getAccounts()));
         creditAccField.getSelectionModel().selectFirst();
         Callback<ListView<Account>, ListCell<Account>> cellFactory = createCellFactoryAcc();
         debitAccField.setButtonCell(cellFactory.call(null));
@@ -177,25 +175,25 @@ public class AccountingOverviewController {
         this.mainApp = mainApp;
 
      // Add observable list data to the table
-        accountingRecordTable.setItems(mainApp.getAccountingRecordData());
+        accountingRecordTable.setItems(mainApp.getRecordData());
         enableFiltering();
      }
 
     /**
-     * Fills all text fields to show details about the accountingRecord.
-     * If the specified accountingRecord is null, all text fields are cleared.
+     * Fills all text fields to show details about the record.
+     * If the specified record is null, all text fields are cleared.
      *
-     * @param accountingRecord or null
+     * @param record or null
      */
-    private void showAccountingRecordDetails(AccountingRecord accountingRecord) {
-        if (accountingRecord != null) {
-            // Fill the labels with info from the accountingRecord object.
-            debitAccIDLabel.setText(accountingRecord.getDebitAcc().getAccID());
-            debitAccTagLabel.setText(accountingRecord.getDebitAcc().getAccTag());
-            debitAccAmountLabel.setText(accountingRecord.getAmount().toString());
-            creditAccIDLabel.setText(accountingRecord.getCreditAcc().getAccID());
-            creditAccTagLabel.setText(accountingRecord.getCreditAcc().getAccTag());
-            creditAccAmountLabel.setText(accountingRecord.getAmount().toString());
+    private void showAccountingRecordDetails(Record record) {
+        if (record != null) {
+            // Fill the labels with info from the record object.
+            debitAccIDLabel.setText(record.getDebitAcc().getAccID());
+            debitAccTagLabel.setText(record.getDebitAcc().getAccTag());
+            debitAccAmountLabel.setText(record.getAmount().toString());
+            creditAccIDLabel.setText(record.getCreditAcc().getAccID());
+            creditAccTagLabel.setText(record.getCreditAcc().getAccTag());
+            creditAccAmountLabel.setText(record.getAmount().toString());
         } else {
             // Accountingrecord is null, remove all the text.
             creditAccIDLabel.setText("");
@@ -210,7 +208,7 @@ public class AccountingOverviewController {
      */
     @FXML
     private void handleSelectAccountingRecord() {
-        AccountingRecord selectedRecord = accountingRecordTable.getSelectionModel().getSelectedItem();
+        Record selectedRecord = accountingRecordTable.getSelectionModel().getSelectedItem();
         if (selectedRecord != null) {
             showAccountingRecordDetails(selectedRecord);
         }
@@ -223,7 +221,7 @@ public class AccountingOverviewController {
     public void setAccountingRecord() {
 
         if (isInputValid()) {
-            mainApp.getAccountingRecordData().add(new AccountingRecord(new CounterId(), Double.parseDouble(amountField.getText()),
+            mainApp.getRecordData().add(new Record(new CounterId(), Double.parseDouble(amountField.getText()),
                     debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
                     DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
                     tagField.getText()));
@@ -286,7 +284,7 @@ public class AccountingOverviewController {
 
     public void enableFiltering() {
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<AccountingRecord> filteredData = new FilteredList<>(mainApp.getAccountingRecordData(), r -> true);
+        FilteredList<Record> filteredData = new FilteredList<>(mainApp.getRecordData(), r -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(record -> {
@@ -309,15 +307,13 @@ public class AccountingOverviewController {
                     return true; // Filter matches date.
                 } else if (record.getDocNum().toString().contains(lowerCaseFilter)) {
                     return true; // Filter matches docNum.
-                } else if (record.getTags().contains(lowerCaseFilter)) {
-                    return true; // Filter matches tags.
-                }
-                return false; // Does not match.
+                } else return record.getTags().contains(lowerCaseFilter); // Filter matches tags.
+                // Does not match.
             });
         });
 
         // 3. Wrap the FilteredList in a SortedList.
-        SortedList<AccountingRecord> sortedData = new SortedList<>(filteredData);
+        SortedList<Record> sortedData = new SortedList<>(filteredData);
         // 4. Bind the SortedList comperator to the TableView comperator.
         sortedData.comparatorProperty().bind(accountingRecordTable.comparatorProperty());
         // 5. Add sorted (and filtered) data to the table.

@@ -1,18 +1,17 @@
 package de.company.accountingfx.model;
 
 import de.company.accountingfx.util.CounterId;
-import de.company.accountingfx.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 /**
- * Model class for a AccountingRecord.
+ * Model class for a Record.
  *
  * @author Henning Wuehn
  */
-public class AccountingRecord {
+public class Record {
 
     private IntegerProperty id;
     private DoubleProperty amount;
@@ -25,7 +24,7 @@ public class AccountingRecord {
     /**
      * Default constructor.
      */
-    public AccountingRecord() {
+    public Record() {
         this.id = new SimpleIntegerProperty();
         this.amount = new SimpleDoubleProperty();
         this.debitAcc = new SimpleObjectProperty<Account>();
@@ -47,8 +46,8 @@ public class AccountingRecord {
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(CounterId id, Double amount, Account debitAcc, Integer docNum, LocalDate date,
-                            Account creditAcc, String tags) {
+     public Record(CounterId id, Double amount, Account debitAcc, Integer docNum, LocalDate date,
+                   Account creditAcc, String tags) {
         this.id = new SimpleIntegerProperty(id.getCounter());
         this.amount = new SimpleDoubleProperty(amount);
         this.debitAcc = new SimpleObjectProperty<>(debitAcc);

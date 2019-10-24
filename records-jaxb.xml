@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <accountingrecords>
-    <accountingRecords>
+    <records>
         <amount>10000.0</amount>
         <creditAcc>
             <accID>1800</accID>
@@ -14,8 +14,8 @@
         <docNum>123</docNum>
         <id>1</id>
         <tags>PKW</tags>
-    </accountingRecords>
-    <accountingRecords>
+    </records>
+    <records>
         <amount>30.0</amount>
         <creditAcc>
             <accID>1600</accID>
@@ -29,8 +29,8 @@
         <docNum>456</docNum>
         <id>2</id>
         <tags>Reinigungsmittel</tags>
-    </accountingRecords>
-    <accountingRecords>
+    </records>
+    <records>
         <amount>45.0</amount>
         <creditAcc>
             <accID>1800</accID>
@@ -44,8 +44,8 @@
         <docNum>789</docNum>
         <id>3</id>
         <tags>Ordner</tags>
-    </accountingRecords>
-    <accountingRecords>
+    </records>
+    <records>
         <amount>160.0</amount>
         <creditAcc>
             <accID>1800</accID>
@@ -59,8 +59,8 @@
         <docNum>135</docNum>
         <id>4</id>
         <tags>Maus &amp; Tastatur</tags>
-    </accountingRecords>
-    <accountingRecords>
+    </records>
+    <records>
         <amount>45.0</amount>
         <creditAcc>
             <accID>1600</accID>
@@ -74,5 +74,5 @@
         <docNum>999</docNum>
         <id>5</id>
         <tags>Kasten Wasser</tags>
-    </accountingRecords>
+    </records>
 </accountingrecords>
