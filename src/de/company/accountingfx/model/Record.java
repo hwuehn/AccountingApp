@@ -8,13 +8,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 /**
- * Model class for a Record.
+ * Model class for a AccountingRecord.
  *
  * @author Henning Wuehn
  */
-public class Record extends Account {
+public class AccountingRecord {
 
-    private IntegerProperty iD;
+    private IntegerProperty id;
     private DoubleProperty amount;
     private ObjectProperty<Account> debitAcc;
     private IntegerProperty docNum;
@@ -25,15 +25,21 @@ public class Record extends Account {
     /**
      * Default constructor.
      */
-    public Record() {
-        super();
+    public AccountingRecord() {
+        this.id = new SimpleIntegerProperty();
+        this.amount = new SimpleDoubleProperty();
+        this.debitAcc = new SimpleObjectProperty<Account>();
+        this.docNum = new SimpleIntegerProperty();
+        this.date = new SimpleObjectProperty();
+        this.creditAcc = new SimpleObjectProperty<Account>();
+        this.tags = new SimpleStringProperty();
 
     }
 
      /**
      * Constructor with some initial data.
      *
-     * @param iD
+     * @param id
      * @param amount
      * @param debitAcc
      * @param docNum
@@ -41,9 +47,9 @@ public class Record extends Account {
      * @param creditAcc
      * @param tags
      */
-    public Record(Double amount, Account debitAcc, Integer docNum, LocalDate date,
-                  Account creditAcc, String tags) {
-        this.iD = new SimpleIntegerProperty(new CounterId().getCounter());
+    public AccountingRecord(CounterId id, Double amount, Account debitAcc, Integer docNum, LocalDate date,
+                            Account creditAcc, String tags) {
+        this.id = new SimpleIntegerProperty(id.getCounter());
         this.amount = new SimpleDoubleProperty(amount);
         this.debitAcc = new SimpleObjectProperty<>(debitAcc);
         this.docNum = new SimpleIntegerProperty(docNum);
@@ -52,12 +58,16 @@ public class Record extends Account {
         this.tags = new SimpleStringProperty(tags);
     }
 
-    public Integer getiD() {
-        return iD.get();
+    public int getId() {
+        return id.get();
     }
 
-    public IntegerProperty iDProperty() {
-        return iD;
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     public Double getAmount() {
@@ -96,7 +106,7 @@ public class Record extends Account {
         this.docNum.set(docNum);
     }
 
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    @XmlJavaTypeAdapter(de.company.accountingfx.util.LocalDateAdapter.class)
     public LocalDate getDate() {
         return date.get();
     }

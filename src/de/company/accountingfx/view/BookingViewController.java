@@ -1,37 +1,40 @@
 package de.company.accountingfx.view;
 
 import de.company.accountingfx.model.Account;
-import de.company.accountingfx.model.Record;
+import de.company.accountingfx.util.CounterId;
 import de.company.accountingfx.util.DateUtil;
+import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import de.company.accountingfx.MainApp;
+import de.company.accountingfx.model.AccountingRecord;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-public class BookingViewController {
+public class AccountingOverviewController {
 
     @FXML
-    private TableView<Record> accountingRecordTable;
+    private TableView<AccountingRecord> accountingRecordTable;
     @FXML
-    private TableColumn<Record, String> iDColumn;
+    private TableColumn<AccountingRecord, String> iDColumn;
     @FXML
-    private TableColumn<Record, String> amountColumn;
+    private TableColumn<AccountingRecord, String> amountColumn;
     @FXML
-    private TableColumn<Record, String> debitAccColumn;
+    private TableColumn<AccountingRecord, String> debitAccColumn;
     @FXML
-    private TableColumn<Record, String> docNumColumn;
+    private TableColumn<AccountingRecord, String> docNumColumn;
     @FXML
-    private TableColumn<Record, String> dateColumn;
+    private TableColumn<AccountingRecord, String> dateColumn;
     @FXML
-    private TableColumn<Record, String> creditAccColumn;
+    private TableColumn<AccountingRecord, String> creditAccColumn;
     @FXML
-    private TableColumn<Record, String> tagColumn;
+    private TableColumn<AccountingRecord, String> tagColumn;
     @FXML
     private Label debitAccIDLabel;
     @FXML
@@ -70,7 +73,7 @@ public class BookingViewController {
      * The constructor.
      * The constructor is called before the initialize() method.
      */
-    public BookingViewController() {
+    public AccountingOverviewController() {
     }
 
     /**
@@ -80,19 +83,19 @@ public class BookingViewController {
     @FXML
     private void initialize() {
         // Initialize the accountingRecord table with the seven columns.
-        iDColumn.setCellValueFactory(cellData -> cellData.getValue().iDProperty().asString());
+        iDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asString());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
-        debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Record, String>, ObservableValue<String>>() {
+        debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Record, String> param) {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
                 return new SimpleStringProperty(param.getValue().getDebitAcc().getAccID());
             }
         });
         docNumColumn.setCellValueFactory(cellData -> cellData.getValue().docNumProperty().asString());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().dateProperty().asString());
-        creditAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Record, String>, ObservableValue<String>>() {
+        creditAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<Record, String> param) {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<AccountingRecord, String> param) {
                 return new SimpleStringProperty(param.getValue().getCreditAcc().getAccID());
             }
         });
@@ -106,9 +109,9 @@ public class BookingViewController {
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
 
-        debitAccField.setItems(FXCollections.observableArrayList(AccountAdministrationController.getAccounts()));
+        debitAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
         debitAccField.getSelectionModel().selectFirst();
-        creditAccField.setItems(FXCollections.observableArrayList(AccountAdministrationController.getAccounts()));
+        creditAccField.setItems(FXCollections.observableArrayList(AddAccountDialogController.getAccounts()));
         creditAccField.getSelectionModel().selectFirst();
         Callback<ListView<Account>, ListCell<Account>> cellFactory = createCellFactoryAcc();
         debitAccField.setButtonCell(cellFactory.call(null));
@@ -174,25 +177,25 @@ public class BookingViewController {
         this.mainApp = mainApp;
 
      // Add observable list data to the table
-        accountingRecordTable.setItems(mainApp.getRecordData());
+        accountingRecordTable.setItems(mainApp.getAccountingRecordData());
         enableFiltering();
      }
 
     /**
-     * Fills all text fields to show details about the record.
-     * If the specified record is null, all text fields are cleared.
+     * Fills all text fields to show details about the accountingRecord.
+     * If the specified accountingRecord is null, all text fields are cleared.
      *
-     * @param record or null
+     * @param accountingRecord or null
      */
-    private void showAccountingRecordDetails(Record record) {
-        if (record != null) {
-            // Fill the labels with info from the record object.
-            debitAccIDLabel.setText(record.getDebitAcc().getAccID());
-            debitAccTagLabel.setText(record.getDebitAcc().getAccTag());
-            debitAccAmountLabel.setText(record.getAmount().toString());
-            creditAccIDLabel.setText(record.getCreditAcc().getAccID());
-            creditAccTagLabel.setText(record.getCreditAcc().getAccTag());
-            creditAccAmountLabel.setText(record.getAmount().toString());
+    private void showAccountingRecordDetails(AccountingRecord accountingRecord) {
+        if (accountingRecord != null) {
+            // Fill the labels with info from the accountingRecord object.
+            debitAccIDLabel.setText(accountingRecord.getDebitAcc().getAccID());
+            debitAccTagLabel.setText(accountingRecord.getDebitAcc().getAccTag());
+            debitAccAmountLabel.setText(accountingRecord.getAmount().toString());
+            creditAccIDLabel.setText(accountingRecord.getCreditAcc().getAccID());
+            creditAccTagLabel.setText(accountingRecord.getCreditAcc().getAccTag());
+            creditAccAmountLabel.setText(accountingRecord.getAmount().toString());
         } else {
             // Accountingrecord is null, remove all the text.
             creditAccIDLabel.setText("");
@@ -207,7 +210,7 @@ public class BookingViewController {
      */
     @FXML
     private void handleSelectAccountingRecord() {
-        Record selectedRecord = accountingRecordTable.getSelectionModel().getSelectedItem();
+        AccountingRecord selectedRecord = accountingRecordTable.getSelectionModel().getSelectedItem();
         if (selectedRecord != null) {
             showAccountingRecordDetails(selectedRecord);
         }
@@ -220,7 +223,7 @@ public class BookingViewController {
     public void setAccountingRecord() {
 
         if (isInputValid()) {
-            mainApp.getRecordData().add(new Record(Double.parseDouble(amountField.getText()),
+            mainApp.getAccountingRecordData().add(new AccountingRecord(new CounterId(), Double.parseDouble(amountField.getText()),
                     debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
                     DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
                     tagField.getText()));
@@ -283,7 +286,7 @@ public class BookingViewController {
 
     public void enableFiltering() {
         // 1. Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<Record> filteredData = new FilteredList<>(mainApp.getRecordData(), r -> true);
+        FilteredList<AccountingRecord> filteredData = new FilteredList<>(mainApp.getAccountingRecordData(), r -> true);
         // 2. Set the filter Predicate whenever the filter changes.
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(record -> {
@@ -292,13 +295,14 @@ public class BookingViewController {
                     return true;
                 }
                 // Compare all columns with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
+                String lowerCaseFilter = newValue; //.toLowerCase();
+
                 if (record.getDebitAcc().toString().contains(lowerCaseFilter)) {
                     return true; // Filter matches debitAcc.
                 } else if (record.getCreditAcc().toString().contains(lowerCaseFilter)) {
                     return true; // Filter matches creditAcc.
-                } else if (record.getiD().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches iD.
+//                } else if (record.getId().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches iD.
                 } else if (record.getAmount().toString().contains(lowerCaseFilter)) {
                     return true; // Filter matches amount.
                 } else if (record.getDate().toString().contains(lowerCaseFilter)) {
@@ -313,7 +317,7 @@ public class BookingViewController {
         });
 
         // 3. Wrap the FilteredList in a SortedList.
-        SortedList<Record> sortedData = new SortedList<>(filteredData);
+        SortedList<AccountingRecord> sortedData = new SortedList<>(filteredData);
         // 4. Bind the SortedList comperator to the TableView comperator.
         sortedData.comparatorProperty().bind(accountingRecordTable.comparatorProperty());
         // 5. Add sorted (and filtered) data to the table.
