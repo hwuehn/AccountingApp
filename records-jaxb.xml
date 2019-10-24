@@ -12,6 +12,7 @@
             <accTag>Fuhrpark</accTag>
         </debitAcc>
         <docNum>123</docNum>
+        <id>1</id>
         <tags>PKW</tags>
     </accountingRecords>
     <accountingRecords>
@@ -26,6 +27,7 @@
             <accTag>Reinigung</accTag>
         </debitAcc>
         <docNum>456</docNum>
+        <id>2</id>
         <tags>Reinigungsmittel</tags>
     </accountingRecords>
     <accountingRecords>
@@ -40,6 +42,7 @@
             <accTag>Buerobedarf</accTag>
         </debitAcc>
         <docNum>789</docNum>
+        <id>3</id>
         <tags>Ordner</tags>
     </accountingRecords>
     <accountingRecords>
@@ -54,6 +57,7 @@
             <accTag>Buerobedarf</accTag>
         </debitAcc>
         <docNum>135</docNum>
+        <id>4</id>
         <tags>Maus &amp; Tastatur</tags>
     </accountingRecords>
     <accountingRecords>
@@ -68,20 +72,7 @@
             <accTag>Buerobedarf</accTag>
         </debitAcc>
         <docNum>999</docNum>
+        <id>5</id>
         <tags>Kasten Wasser</tags>
-    </accountingRecords>
-    <accountingRecords>
-        <amount>100.0</amount>
-        <creditAcc>
-            <accID>700</accID>
-            <accTag>Fuhrpark</accTag>
-        </creditAcc>
-        <date>2019-01-01</date>
-        <debitAcc>
-            <accID>700</accID>
-            <accTag>Fuhrpark</accTag>
-        </debitAcc>
-        <docNum>123</docNum>
-        <tags>asd</tags>
     </accountingRecords>
 </accountingrecords>

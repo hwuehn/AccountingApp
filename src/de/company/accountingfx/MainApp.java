@@ -3,6 +3,7 @@ package de.company.accountingfx;
 import de.company.accountingfx.model.Account;
 import de.company.accountingfx.model.AccountingRecord;
 import de.company.accountingfx.model.AccountingRecordListWrapper;
+import de.company.accountingfx.util.CounterId;
 import de.company.accountingfx.view.AccountingOverviewController;
 import de.company.accountingfx.view.AddAccountDialogController;
 import de.company.accountingfx.view.RootLayoutController;
@@ -57,15 +58,15 @@ public class MainApp extends Application {
         accountList.addAll(fuhrpark,kasse,bank,reiningung,buerobedarf);
 
         // Add some sample data
-        accountingRecordData.add(new AccountingRecord(10000.00, fuhrpark,
+        accountingRecordData.add(new AccountingRecord(new CounterId(), 10000.00, fuhrpark,
                 123, LocalDate.of(2019, 10, 2), bank, "PKW"));
-        accountingRecordData.add(new AccountingRecord(30.00, reiningung,
+        accountingRecordData.add(new AccountingRecord(new CounterId(),30.00, reiningung,
                 456, LocalDate.of(2019, 10, 4), kasse, "Reinigungsmittel"));
-        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new CounterId(), 45.00, buerobedarf,
                 789, LocalDate.of(2019, 10, 6), bank, "Ordner"));
-        accountingRecordData.add(new AccountingRecord( 160.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new CounterId(), 160.00, buerobedarf,
                 135, LocalDate.of(2019, 10, 9), bank, "Maus & Tastatur"));
-        accountingRecordData.add(new AccountingRecord( 45.00, buerobedarf,
+        accountingRecordData.add(new AccountingRecord(new CounterId(), 45.00, buerobedarf,
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
     }
 

@@ -83,7 +83,7 @@ public class AccountingOverviewController {
     @FXML
     private void initialize() {
         // Initialize the accountingRecord table with the seven columns.
-        iDColumn.setCellValueFactory(cellData -> cellData.getValue().iDProperty().asString());
+        iDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asString());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
         debitAccColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<AccountingRecord, String>, ObservableValue<String>>() {
             @Override
@@ -223,7 +223,7 @@ public class AccountingOverviewController {
     public void setAccountingRecord() {
 
         if (isInputValid()) {
-            mainApp.getAccountingRecordData().add(new AccountingRecord(Double.parseDouble(amountField.getText()),
+            mainApp.getAccountingRecordData().add(new AccountingRecord(new CounterId(), Double.parseDouble(amountField.getText()),
                     debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
                     DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
                     tagField.getText()));
@@ -301,8 +301,8 @@ public class AccountingOverviewController {
                     return true; // Filter matches debitAcc.
                 } else if (record.getCreditAcc().toString().contains(lowerCaseFilter)) {
                     return true; // Filter matches creditAcc.
-                } else if (record.getiD().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches iD.
+//                } else if (record.getId().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches iD.
                 } else if (record.getAmount().toString().contains(lowerCaseFilter)) {
                     return true; // Filter matches amount.
                 } else if (record.getDate().toString().contains(lowerCaseFilter)) {

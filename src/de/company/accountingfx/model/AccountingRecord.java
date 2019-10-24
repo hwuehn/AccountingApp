@@ -14,7 +14,7 @@ import java.time.LocalDate;
  */
 public class AccountingRecord {
 
-    private IntegerProperty iD;
+    private IntegerProperty id;
     private DoubleProperty amount;
     private ObjectProperty<Account> debitAcc;
     private IntegerProperty docNum;
@@ -31,7 +31,7 @@ public class AccountingRecord {
      /**
      * Constructor with some initial data.
      *
-     * @param iD
+     * @param id
      * @param amount
      * @param debitAcc
      * @param docNum
@@ -39,9 +39,9 @@ public class AccountingRecord {
      * @param creditAcc
      * @param tags
      */
-    public AccountingRecord(Double amount, Account debitAcc, Integer docNum, LocalDate date,
+    public AccountingRecord(CounterId id, Double amount, Account debitAcc, Integer docNum, LocalDate date,
                             Account creditAcc, String tags) {
-        this.iD = new SimpleIntegerProperty(new CounterId().getCounter());
+        this.id = new SimpleIntegerProperty(id.getCounter());
         this.amount = new SimpleDoubleProperty(amount);
         this.debitAcc = new SimpleObjectProperty<>(debitAcc);
         this.docNum = new SimpleIntegerProperty(docNum);
@@ -50,12 +50,16 @@ public class AccountingRecord {
         this.tags = new SimpleStringProperty(tags);
     }
 
-    public Integer getiD() {
-        return iD.get();
+    public int getId() {
+        return id.get();
     }
 
-    public IntegerProperty iDProperty() {
-        return iD;
+    public IntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     public Double getAmount() {
@@ -94,7 +98,7 @@ public class AccountingRecord {
         this.docNum.set(docNum);
     }
 
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
+    @XmlJavaTypeAdapter(de.company.accountingfx.util.LocalDateAdapter.class)
     public LocalDate getDate() {
         return date.get();
     }
