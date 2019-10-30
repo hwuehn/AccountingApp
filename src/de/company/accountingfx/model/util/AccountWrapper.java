@@ -1,4 +1,6 @@
-package de.company.accountingfx.model;
+package de.company.accountingfx.model.util;
+import de.company.accountingfx.model.Account;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
  * @author Henning Wuehn
  */
 @XmlRootElement(name = "accounts")
-public class AccListWrapper {
+public class AccountWrapper {
 
     private List<Account> accounts;
 

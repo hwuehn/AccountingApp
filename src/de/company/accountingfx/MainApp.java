@@ -1,12 +1,12 @@
 package de.company.accountingfx;
 
 import de.company.accountingfx.model.Account;
-import de.company.accountingfx.model.AccountingRecordListWrapper;
+import de.company.accountingfx.model.util.RecordWrapper;
 import de.company.accountingfx.model.Record;
-import de.company.accountingfx.util.CounterId;
-import de.company.accountingfx.view.AccountAdministrationController;
-import de.company.accountingfx.view.BookingViewController;
-import de.company.accountingfx.view.RootLayoutController;
+import de.company.accountingfx.model.util.CounterId;
+import de.company.accountingfx.control.AddAccountController;
+import de.company.accountingfx.control.RecordTableController;
+import de.company.accountingfx.control.RootLayoutController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,18 +29,13 @@ import java.util.prefs.Preferences;
 
 public class MainApp extends Application {
 
-    private static final String RECORDS_XML = "./records-jaxb.xml";
+    private static final String RECORDS_XML = "./resources/save/records.xml";
+    private static final String ACCOUNTS_XML = ".resources/save/accounts.xml";
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    /**
-     * The data as an observable list of AccountingRecords.
-     */
     private ObservableList<Record> recordData = FXCollections.observableArrayList();
 
-    /**
-     * Constructor
-     */
     public MainApp() {
         // Add some accounts
         Account fuhrpark = new Account("700","Fuhrpark");
@@ -66,17 +61,10 @@ public class MainApp extends Application {
 
     private ObservableList<Account> accountList = FXCollections.observableArrayList();
 
-    /**
-     * Returns the data as an observable list of AccountingRecords and Accounts.
-     * @return
-     */
     public ObservableList<Record> getRecordData() {
         return recordData;
     }
 
-    public void setRecordData(ObservableList<Record> recordData) {
-        this.recordData = recordData;
-    }
     public ObservableList<Account> getAccountList() {return accountList; }
 
     @Override
@@ -131,14 +119,14 @@ public class MainApp extends Application {
             try {
                 // Load accounting overview.
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(MainApp.class.getResource("view/BookingView.fxml"));
+                loader.setLocation(MainApp.class.getResource("view/RecordTable.fxml"));
                 AnchorPane accountingOverview = loader.load();
 
                 // Set person overview into the center of root layout.
                 rootLayout.setCenter(accountingOverview);
 
                 // Give the controller access to the main app.
-                BookingViewController controller = loader.getController();
+                RecordTableController controller = loader.getController();
                 controller.setMainApp(this);
 
             } catch (IOException e) {
@@ -193,13 +181,13 @@ public class MainApp extends Application {
     public void loadRecordDataFromFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(AccountingRecordListWrapper.class);
+                    .newInstance(RecordWrapper.class);
             Unmarshaller um = context.createUnmarshaller();
 
             // Reading XML from the file and unmarshalling.
             System.out.println("1");
 
-            AccountingRecordListWrapper wrapper = (AccountingRecordListWrapper) um.unmarshal(file);
+            RecordWrapper wrapper = (RecordWrapper) um.unmarshal(file);
 
             System.out.println("2");
 
@@ -229,12 +217,12 @@ public class MainApp extends Application {
     public void saveRecordDataToFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(AccountingRecordListWrapper.class);
+                    .newInstance(RecordWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
             // Wrapping our record data.
-            AccountingRecordListWrapper wrapper = new AccountingRecordListWrapper();
+            RecordWrapper wrapper = new RecordWrapper();
             wrapper.setRecords(recordData);
 
             // Write to System.out
@@ -270,7 +258,7 @@ public class MainApp extends Application {
         try {
             // Load the fxml file and create a new stage for the popup dialog.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/AddAccountDialog.fxml"));
+            loader.setLocation(MainApp.class.getResource("view/AddAccount.fxml"));
             AnchorPane page = loader.load();
 
             // Create the dialog Stage.
@@ -282,7 +270,7 @@ public class MainApp extends Application {
             dialogStage.setScene(scene);
 
             // Set the account into the controller.
-            AccountAdministrationController controller = loader.getController();
+            AddAccountController controller = loader.getController();
             controller.setDialogStage(dialogStage);
 
             // Set the dialog icon.

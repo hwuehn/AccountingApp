@@ -14,13 +14,13 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.company.accountingfx.view.BookingViewController">
+<AnchorPane prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@style/DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.company.accountingfx.control.RecordTableController">
    <children>
-      <SplitPane dividerPositions="0.680327868852459" layoutX="7.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.680327868852459" layoutX="7.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@style/DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background" stylesheets="@DarkTheme.css">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" styleClass="background" stylesheets="@style/DarkTheme.css">
                <children>
-                  <TableView fx:id="accountingRecordTable" layoutX="234.0" layoutY="-88.0" prefHeight="370.0" prefWidth="950.0" stylesheets="@DarkTheme.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="accountingRecordTable" layoutX="234.0" layoutY="-88.0" prefHeight="370.0" prefWidth="950.0" stylesheets="@style/DarkTheme.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="iDColumn" prefWidth="115.0" text="Number" />
                       <TableColumn fx:id="amountColumn" prefWidth="109.0" text="Amount" />
@@ -41,7 +41,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="163.0" prefWidth="899.0" styleClass="background" stylesheets="@DarkTheme.css">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="163.0" prefWidth="899.0" styleClass="background" stylesheets="@style/DarkTheme.css">
                <children>
                   <GridPane gridLinesVisible="true" layoutX="96.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="90.0" prefWidth="900.0" styleClass="background" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
@@ -72,7 +72,7 @@
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding></TextField>
-                        <ComboBox fx:id="debitAccField" prefHeight="39.0" prefWidth="139.0" promptText="account" stylesheets="@DarkTheme.css" GridPane.columnIndex="2">
+                        <ComboBox fx:id="debitAccField" prefHeight="39.0" prefWidth="139.0" promptText="account" stylesheets="@style/DarkTheme.css" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -93,7 +93,7 @@
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding></TextField>
-                        <ComboBox fx:id="creditAccField" prefHeight="39.0" prefWidth="167.0" promptText="account" stylesheets="@DarkTheme.css" GridPane.columnIndex="5">
+                        <ComboBox fx:id="creditAccField" prefHeight="39.0" prefWidth="167.0" promptText="account" stylesheets="@style/DarkTheme.css" GridPane.columnIndex="5">
                            <GridPane.margin>
                               <Insets bottom="5.0" right="5.0" top="5.0" />
                            </GridPane.margin>
@@ -107,7 +107,7 @@
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding></TextField>
-                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#setAccountingRecord" prefHeight="87.0" prefWidth="179.0" stylesheets="@DarkTheme.css" text="Submit" GridPane.rowIndex="1">
+                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#setAccountingRecord" prefHeight="87.0" prefWidth="179.0" stylesheets="@style/DarkTheme.css" text="Submit" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin></Button>
@@ -115,7 +115,7 @@
                            <GridPane.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </GridPane.margin></TextField>
-                        <Label styleClass="label-bright" stylesheets="@DarkTheme.css" text="Filter here:" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Label styleClass="label-bright" stylesheets="@style/DarkTheme.css" text="Filter here:" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane layoutX="7.0" layoutY="144.0" prefHeight="57.0" prefWidth="474.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
@@ -132,12 +132,12 @@
                      <children>
                         <Label styleClass="label-bright" text="Account:" />
                         <Label styleClass="label-bright" text="toAccount:" GridPane.rowIndex="1" />
-                        <Label fx:id="debitAccIDLabel" prefHeight="43.0" prefWidth="106.0" styleClass="label-bright" stylesheets="@DarkTheme.css" text="Label" GridPane.columnIndex="1" />
-                        <Label fx:id="debitAccTagLabel" styleClass="label-bright" stylesheets="@DarkTheme.css" text="Label" GridPane.columnIndex="2" />
-                        <Label fx:id="creditAccIDLabel" prefHeight="61.0" prefWidth="106.0" styleClass="label-bright" stylesheets="@DarkTheme.css" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="creditAccTagLabel" styleClass="label-bright" stylesheets="@DarkTheme.css" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Label fx:id="debitAccAmountLabel" prefHeight="32.0" prefWidth="102.0" styleClass="label-bright" stylesheets="@DarkTheme.css" text="Label" GridPane.columnIndex="3" />
-                        <Label fx:id="creditAccAmountLabel" prefHeight="34.0" prefWidth="102.0" styleClass="label-bright" stylesheets="@DarkTheme.css" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label fx:id="debitAccIDLabel" prefHeight="43.0" prefWidth="106.0" styleClass="label-bright" stylesheets="@style/DarkTheme.css" text="Label" GridPane.columnIndex="1" />
+                        <Label fx:id="debitAccTagLabel" styleClass="label-bright" stylesheets="@style/DarkTheme.css" text="Label" GridPane.columnIndex="2" />
+                        <Label fx:id="creditAccIDLabel" prefHeight="61.0" prefWidth="106.0" styleClass="label-bright" stylesheets="@style/DarkTheme.css" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="creditAccTagLabel" styleClass="label-bright" stylesheets="@style/DarkTheme.css" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label fx:id="debitAccAmountLabel" prefHeight="32.0" prefWidth="102.0" styleClass="label-bright" stylesheets="@style/DarkTheme.css" text="Label" GridPane.columnIndex="3" />
+                        <Label fx:id="creditAccAmountLabel" prefHeight="34.0" prefWidth="102.0" styleClass="label-bright" stylesheets="@style/DarkTheme.css" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                </children>

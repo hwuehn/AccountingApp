@@ -1,10 +1,10 @@
-package de.company.accountingfx.view;
+package de.company.accountingfx.control;
 
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.Account;
 import de.company.accountingfx.model.Record;
-import de.company.accountingfx.util.CounterId;
-import de.company.accountingfx.util.DateUtil;
+import de.company.accountingfx.model.util.CounterId;
+import de.company.accountingfx.model.util.DateUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,7 +15,7 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-public class BookingViewController {
+public class RecordTableController {
 
     @FXML
     private TableView<Record> accountingRecordTable;
@@ -71,7 +71,7 @@ public class BookingViewController {
      * The constructor.
      * The constructor is called before the initialize() method.
      */
-    public BookingViewController() {
+    public RecordTableController() {
     }
 
     /**
@@ -107,9 +107,9 @@ public class BookingViewController {
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
 
-        debitAccField.setItems(FXCollections.observableArrayList(AccountAdministrationController.getAccounts()));
+        debitAccField.setItems(FXCollections.observableArrayList(AddAccountController.getAccounts()));
         debitAccField.getSelectionModel().selectFirst();
-        creditAccField.setItems(FXCollections.observableArrayList(AccountAdministrationController.getAccounts()));
+        creditAccField.setItems(FXCollections.observableArrayList(AddAccountController.getAccounts()));
         creditAccField.getSelectionModel().selectFirst();
         Callback<ListView<Account>, ListCell<Account>> cellFactory = createCellFactoryAcc();
         debitAccField.setButtonCell(cellFactory.call(null));

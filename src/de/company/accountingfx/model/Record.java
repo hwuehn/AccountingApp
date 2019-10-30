@@ -1,6 +1,7 @@
 package de.company.accountingfx.model;
 
-import de.company.accountingfx.util.CounterId;
+import de.company.accountingfx.model.util.CounterId;
+import de.company.accountingfx.model.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -105,7 +106,7 @@ public class Record {
         this.docNum.set(docNum);
     }
 
-    @XmlJavaTypeAdapter(de.company.accountingfx.util.LocalDateAdapter.class)
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     public LocalDate getDate() {
         return date.get();
     }

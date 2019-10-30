@@ -1,4 +1,4 @@
-package de.company.accountingfx.view;
+package de.company.accountingfx.control;
 
 import de.company.accountingfx.MainApp;
 import de.company.accountingfx.model.Account;

@@ -1,7 +1,7 @@
-package de.company.accountingfx.view;
+package de.company.accountingfx.control;
 
 import de.company.accountingfx.MainApp;
-import de.company.accountingfx.model.AccListWrapper;
+import de.company.accountingfx.model.util.AccountWrapper;
 import de.company.accountingfx.model.Account;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +15,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 
-public class AccountAdministrationController {
+public class AddAccountController {
 
     @FXML
     private TextField accIdTextField;
@@ -44,7 +44,7 @@ public class AccountAdministrationController {
     }
 
     public void setAccounts(ObservableList<Account> accounts) {
-        AccountAdministrationController.accounts = accounts;
+        AddAccountController.accounts = accounts;
     }
 
     // Reference to the main application.
@@ -119,12 +119,12 @@ public class AccountAdministrationController {
     public void saveAccListToFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(AccListWrapper.class);
+                    .newInstance(AccountWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Wrapping our list data.
-            AccListWrapper wrapper = new AccListWrapper();
+            AccountWrapper wrapper = new AccountWrapper();
             wrapper.setAccounts(accounts);
 
             // Marshalling and saving XML to the file.
