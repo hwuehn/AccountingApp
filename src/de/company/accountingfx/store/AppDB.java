@@ -103,4 +103,12 @@ public class AppDB implements IAppState {
     public ObjectProperty<Record> currentTaskProperty() {
         return currentRecord;
     }
+
+    public String getTitle() {
+        return title.get();
+    }
+
+    public StringProperty titleProperty() {
+        return title;
+    }
 }

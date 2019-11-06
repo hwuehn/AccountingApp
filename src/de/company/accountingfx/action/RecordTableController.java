@@ -1,21 +1,24 @@
 package de.company.accountingfx.action;
 
-import de.company.accountingfx.MainApp;
+import de.company.accountingfx.dispatcher.Dispatcher;
 import de.company.accountingfx.store.Account;
+import de.company.accountingfx.store.AppDB;
 import de.company.accountingfx.store.Record;
-import de.company.accountingfx.store.util.CounterId;
 import de.company.accountingfx.store.util.DateUtil;
+import de.company.accountingfx.store.util.IMainController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
-public class RecordTableController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class RecordTableController implements Initializable {
 
     @FXML
     private TableView<Record> accountingRecordTable;
@@ -62,24 +65,21 @@ public class RecordTableController {
     private TextField filterTextField;
     @FXML
     private Button filterBtn;
-    // Reference to the main application.
-    private MainApp mainApp;
+
+    @FXML
+    private IMainController mainController;
+
     @FXML
     private ComboBox<Account> debitAccField;
 
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
     public RecordTableController() {
     }
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
-    @FXML
-    private void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Dispatcher.subscribe(this);
+        assert accountingRecordTable != null : "fx:id\"accountingRecordTable\" was not injected: check your FXML file 'RecordTable.fxml'.";
+
         // Initialize the accountingRecord table with the seven columns.
         iDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asString());
         amountColumn.setCellValueFactory(cellData -> cellData.getValue().amountProperty().asString());
@@ -166,25 +166,20 @@ public class RecordTableController {
             };
     }
 
-    /**
-     * Is called by the main application to give a reference back to itself.
-     *
-     * @param mainApp
-     */
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
+    @FXML
+    public void subscribeAppDb(AppDB appDB) {
+        setAppState(appDB);
+    }
 
-     // Add observable list data to the table
-        accountingRecordTable.setItems(mainApp.getRecordData());
-        enableFiltering();
+    public void setMainController(IMainController controller) {
+        this.mainController = controller;
+    }
+
+    public void setAppState(AppDB appState) {
+        accountingRecordTable.setItems(appState.getRecords());
+        //enableFiltering();
      }
 
-    /**
-     * Fills all text fields to show details about the record.
-     * If the specified record is null, all text fields are cleared.
-     *
-     * @param record or null
-     */
     private void showAccountingRecordDetails(Record record) {
         if (record != null) {
             // Fill the labels with info from the record object.
@@ -203,9 +198,6 @@ public class RecordTableController {
         }
     }
 
-    /**
-     * Called when the user selectss a accountingrecord. Showing details of the record.
-     */
     @FXML
     private void handleSelectAccountingRecord() {
         Record selectedRecord = accountingRecordTable.getSelectionModel().getSelectedItem();
@@ -214,25 +206,17 @@ public class RecordTableController {
         }
     }
 
-    /**
-     * Called when the user clicks the submit button. Inserts the userInput in the ne record..
-     */
     @FXML
     public void setAccountingRecord() {
 
-        if (isInputValid()) {
-            mainApp.getRecordData().add(new Record(new CounterId(), Double.parseDouble(amountField.getText()),
-                    debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
-                    DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
-                    tagField.getText()));
-        }
+//        if (isInputValid()) {
+//            mainApp.getRecordData().add(new Record(new CounterId(), Double.parseDouble(amountField.getText()),
+//                    debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
+//                    DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
+//                    tagField.getText()));
+//        }
     }
 
-    /**
-     * Validates the user input in the text fields.
-     *
-     * @return true if the input is valid
-     */
     private boolean isInputValid() {
         String errorMessage = "";
         if (amountField.getText() == null || amountField.getText().length() == 0) {
@@ -282,43 +266,43 @@ public class RecordTableController {
         }
     }
 
-    public void enableFiltering() {
-        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<Record> filteredData = new FilteredList<>(mainApp.getRecordData(), r -> true);
-        // 2. Set the filter Predicate whenever the filter changes.
-        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(record -> {
-                // If filter text is empty, display all records.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare all columns with filter text.
-                String lowerCaseFilter = newValue; //.toLowerCase();
-
-                if (record.getDebitAcc().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches debitAcc.
-                } else if (record.getCreditAcc().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches creditAcc.
-//                } else if (record.getId().contains(lowerCaseFilter)) {
-//                    return true; // Filter matches iD.
-                } else if (record.getAmount().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches amount.
-                } else if (record.getDate().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches date.
-                } else if (record.getDocNum().toString().contains(lowerCaseFilter)) {
-                    return true; // Filter matches docNum.
-                } else return record.getTags().contains(lowerCaseFilter); // Filter matches tags.
-                // Does not match.
-            });
-        });
-
-        // 3. Wrap the FilteredList in a SortedList.
-        SortedList<Record> sortedData = new SortedList<>(filteredData);
-        // 4. Bind the SortedList comperator to the TableView comperator.
-        sortedData.comparatorProperty().bind(accountingRecordTable.comparatorProperty());
-        // 5. Add sorted (and filtered) data to the table.
-        accountingRecordTable.setItems(sortedData);
-    }
+//    public void enableFiltering() {
+//        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+//        FilteredList<Record> filteredData = new FilteredList<>(mainApp.getRecordData(), r -> true);
+//        // 2. Set the filter Predicate whenever the filter changes.
+//        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            filteredData.setPredicate(record -> {
+//                // If filter text is empty, display all records.
+//                if (newValue == null || newValue.isEmpty()) {
+//                    return true;
+//                }
+//                // Compare all columns with filter text.
+//                String lowerCaseFilter = newValue; //.toLowerCase();
+//
+//                if (record.getDebitAcc().toString().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches debitAcc.
+//                } else if (record.getCreditAcc().toString().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches creditAcc.
+////                } else if (record.getId().contains(lowerCaseFilter)) {
+////                    return true; // Filter matches iD.
+//                } else if (record.getAmount().toString().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches amount.
+//                } else if (record.getDate().toString().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches date.
+//                } else if (record.getDocNum().toString().contains(lowerCaseFilter)) {
+//                    return true; // Filter matches docNum.
+//                } else return record.getTags().contains(lowerCaseFilter); // Filter matches tags.
+//                // Does not match.
+//            });
+//        });
+//
+//        // 3. Wrap the FilteredList in a SortedList.
+//        SortedList<Record> sortedData = new SortedList<>(filteredData);
+//        // 4. Bind the SortedList comperator to the TableView comperator.
+//        sortedData.comparatorProperty().bind(accountingRecordTable.comparatorProperty());
+//        // 5. Add sorted (and filtered) data to the table.
+//        accountingRecordTable.setItems(sortedData);
+//    }
 
     public ComboBox<Account> getCreditAccField() {
         return creditAccField;

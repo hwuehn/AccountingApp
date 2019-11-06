@@ -5,6 +5,8 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import de.company.accountingfx.store.AppDB;
 
+import java.io.File;
+
 public class Dispatcher {
 
     private final AppDB appDB;
@@ -39,6 +41,27 @@ public class Dispatcher {
         eventBus.post(msg);
     }
 
+    public void setTitle(File file) {
+        String path = file != null ? " - " + file.getName() : "";
+        appDB.setTitle("AccountingApp" + path);
+    }
+
+    public File pathOrDefaultPath(PersistMessage msg) {
+        return msg.file == null ? PersistService.getRecordFilePath() : msg.file;
+    }
+
+    @Subscribe
+    public void dispatchDataMessage(DataMessage msg) {
+        switch (msg.getMsgType()){
+
+            case DataMessage.REQUEST:
+                eventBus.post(appDB);
+                break;
+
+            default:
+        }
+    }
+
     @Subscribe
     public void handleDeadEvent(DeadEvent deadEvent) {
         System.out.println("!!! No subscriber message: !!!");
@@ -46,11 +69,51 @@ public class Dispatcher {
     }
 
     @Subscribe
+    public void dispatchDialogMessage(DialogMessage msg) {
+        switch (msg.getMsgType()) {
+
+            case DialogMessage.LOAD_DIALOG:
+                DialogService.showLoadDialog(msg);
+                break;
+            case DialogMessage.SAVEAS_DIALOG:
+                DialogService.showSaveAsDialog(msg);
+                break;
+
+            default:
+                throw new IllegalStateException("Message not defined: " + msg.getMsgType());
+        }
+    }
+
+    @Subscribe
     public void dispatchPersistMessage(PersistMessage msg) {
         switch (msg.getMsgType()) {
 
+            case PersistMessage.LOAD_TESTDATA:
+                PersistService.loadTestData(appDB);
+                break;
+            case PersistMessage.LOAD_RECORDTABLE:
+                PersistService.loadRecordDataFromFile(pathOrDefaultPath(msg), appDB.getRecords());
+                break;
+            case PersistMessage.SET_TITLE:
+                setTitle(msg.file);
+                break;
+            case PersistMessage.SET_PATH:
+                PersistService.setRecordFilePath(msg.file);
+                break;
+            case PersistMessage.NEW_RECORDTABLE:
+                PersistService.clearView(appDB.getRecords());
+                break;
+            case PersistMessage.SAVE_RECORDTABLE:
+                PersistService.saveRecordDataToFile(pathOrDefaultPath(msg), appDB.getRecords());
+                break;
+            case PersistMessage.EXIT:
+                PersistService.exit();
+                break;
 
+            default:
+                throw new IllegalStateException("Message not defined: " + msg.getMsgType());
         }
     }
+
 
 }

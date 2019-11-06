@@ -162,7 +162,7 @@ public class AddAccountController {
         fileChooser.getExtensionFilters().add(extFilter);
 
         // Show save file dialog
-        File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+        File file = fileChooser.showSaveDialog(mainApp.getStage());
 
         if (file != null) {
             // Make sure it has the correct extension

@@ -9,7 +9,7 @@ public class PersistMessage<T> implements IMsg{
     public static final String LOAD_ACCOUNTLIST = " load_accountList ";
     public static final String SAVE_RECORDTABLE = " save_recordTable ";
     public static final String SAVE_ACCOUNTLIST = " save_accountList ";
-    public static final String SET_PATH =         " set_recordTableDataPath ";
+    public static final String SET_PATH =         " set_recordFilePath ";
     public static final String NEW_RECORDTABLE =  " new_recordTable ";
     public static final String LOAD_TESTDATA =    " load_testData ";
     public static final String EXIT =             " exit_project ";
@@ -31,7 +31,7 @@ public class PersistMessage<T> implements IMsg{
 
     @Override
     public String getMsgType() {
-        return getMsgType();
+        return msgType;
     }
 
     @Override
