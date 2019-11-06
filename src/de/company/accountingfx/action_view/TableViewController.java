@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import de.company.accountingfx.dispatcher.DialogMessage;
 import de.company.accountingfx.dispatcher.Dispatcher;
 import de.company.accountingfx.dispatcher.PersistMessage;
+import de.company.accountingfx.dispatcher.RecordMessage;
 import de.company.accountingfx.store.Account;
 import de.company.accountingfx.store.AppDB;
 import de.company.accountingfx.store.Record;
@@ -86,6 +87,10 @@ public class TableViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Dispatcher.subscribe(this);
         assert accountingRecordTable != null : "fx:id\"accountingRecordTable\" was not injected: check your FXML file 'TableView.fxml'.";
+
+        accountingRecordTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            Dispatcher.dispatch(new RecordMessage(RecordMessage.SELECT, newValue));
+        });
 
         // Initialize the accountingRecord table with the seven columns.
         iDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asString());
@@ -198,7 +203,8 @@ public class TableViewController implements Initializable {
     }
 
     @FXML
-    private void handleSelectAccountingRecord() {
+    private void handleSelectRecord() {
+
         Record selectedRecord = accountingRecordTable.getSelectionModel().getSelectedItem();
         if (selectedRecord != null) {
             showAccountingRecordDetails(selectedRecord);

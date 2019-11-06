@@ -92,15 +92,15 @@ public class AppDB implements IAppState {
                 999, LocalDate.of(2019, 10, 12), kasse, "Kasten Wasser"));
     }
 
-    public void setCurrentTask(Record selectedTask) {
-        currentRecord.setValue(selectedTask);
-    }
-
-    public Record getCurrentTask() {
+    public Record getCurrentRecord() {
         return currentRecord.get();
     }
 
-    public ObjectProperty<Record> currentTaskProperty() {
+    public void setCurrentRecord(Record selectedTask) {
+        currentRecord.setValue(selectedTask);
+    }
+
+    public ObjectProperty<Record> currentRecordProperty() {
         return currentRecord;
     }
 

@@ -142,4 +142,17 @@ public class Record {
     public void setTags(String tags) {
         this.tags.set(tags);
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id.getValue() +
+                ", amount=" + amount.getValue() +
+                ", debitAcc=" + debitAcc.get().getAccID() +
+                ", docNum=" + docNum.getValue() +
+                ", date=" + date.getValue() +
+                ", creditAcc=" + creditAcc.get().getAccID() +
+                ", tags=" + tags.getValue() +
+                '}';
+    }
 }

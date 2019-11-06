@@ -120,6 +120,25 @@ public class Dispatcher {
         }
     }
 
+    @Subscribe
+    public void dispatchRecordMessage(RecordMessage msg) {
+        switch (msg.getMsgType()) {
+
+            case RecordMessage.SELECT:
+                RecordService.selectRecord(msg.newRecord, appDB);
+                break;
+            case RecordMessage.ADD:
+
+                break;
+            case RecordMessage.SHOW_DETAIL:
+
+                break;
+
+            default:
+                throw new IllegalStateException("Message not defined: " + msg.getMsgType());
+        }
+    }
+
     private void setTable(List<Record> records) {
         appDB.getRecords().clear();
         appDB.getRecords().addAll(records);
