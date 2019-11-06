@@ -1,6 +1,6 @@
-package de.company.accountingfx.model.util;
+package de.company.accountingfx.store.util;
 
-import de.company.accountingfx.model.Record;
+import de.company.accountingfx.store.Record;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "accountingrecords")
-public class RecordWrapper {
+public class RecordXMLWrapper {
 
     private List<Record> records;
 

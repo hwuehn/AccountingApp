@@ -1,7 +1,7 @@
-package de.company.accountingfx.control;
+package de.company.accountingfx.action;
 
 import de.company.accountingfx.MainApp;
-import de.company.accountingfx.model.Account;
+import de.company.accountingfx.store.Account;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;

@@ -1,6 +1,7 @@
-package de.company.accountingfx.model;
+package de.company.accountingfx.store;
 
-import de.company.accountingfx.model.util.CounterId;
+import de.company.accountingfx.store.util.CounterId;
+import de.company.accountingfx.store.util.IAppState;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +10,7 @@ import javafx.collections.transformation.SortedList;
 import java.time.LocalDate;
 import java.util.Comparator;
 
-public class Administration implements IAppState {
+public class AppDB implements IAppState {
 
     private final ObjectProperty<Record> currentRecord = new SimpleObjectProperty<Record>();
     private final StringProperty title = new SimpleStringProperty();

@@ -1,12 +1,12 @@
 package de.company.accountingfx;
 
-import de.company.accountingfx.model.Account;
-import de.company.accountingfx.model.util.RecordWrapper;
-import de.company.accountingfx.model.Record;
-import de.company.accountingfx.model.util.CounterId;
-import de.company.accountingfx.control.AddAccountController;
-import de.company.accountingfx.control.RecordTableController;
-import de.company.accountingfx.control.RootLayoutController;
+import de.company.accountingfx.action.AddAccountController;
+import de.company.accountingfx.action.RecordTableController;
+import de.company.accountingfx.action.RootLayoutController;
+import de.company.accountingfx.store.Account;
+import de.company.accountingfx.store.util.RecordXMLWrapper;
+import de.company.accountingfx.store.Record;
+import de.company.accountingfx.store.util.CounterId;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -181,13 +181,13 @@ public class MainApp extends Application {
     public void loadRecordDataFromFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(RecordWrapper.class);
+                    .newInstance(RecordXMLWrapper.class);
             Unmarshaller um = context.createUnmarshaller();
 
             // Reading XML from the file and unmarshalling.
             System.out.println("1");
 
-            RecordWrapper wrapper = (RecordWrapper) um.unmarshal(file);
+            RecordXMLWrapper wrapper = (RecordXMLWrapper) um.unmarshal(file);
 
             System.out.println("2");
 
@@ -217,12 +217,12 @@ public class MainApp extends Application {
     public void saveRecordDataToFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(RecordWrapper.class);
+                    .newInstance(RecordXMLWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
             // Wrapping our record data.
-            RecordWrapper wrapper = new RecordWrapper();
+            RecordXMLWrapper wrapper = new RecordXMLWrapper();
             wrapper.setRecords(recordData);
 
             // Write to System.out

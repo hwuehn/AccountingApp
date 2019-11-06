@@ -1,4 +1,4 @@
-package de.company.accountingfx.model.util;
+package de.company.accountingfx.store.util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

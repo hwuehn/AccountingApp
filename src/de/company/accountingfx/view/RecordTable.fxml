@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@style/DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.company.accountingfx.control.RecordTableController">
+<AnchorPane prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@style/DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.company.accountingfx.action.RecordTableController">
    <children>
       <SplitPane dividerPositions="0.680327868852459" layoutX="7.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="950.0" styleClass="background" stylesheets="@style/DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>

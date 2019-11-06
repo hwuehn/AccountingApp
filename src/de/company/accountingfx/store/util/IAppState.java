@@ -1,5 +1,7 @@
-package de.company.accountingfx.model;
+package de.company.accountingfx.store.util;
 
+import de.company.accountingfx.store.Account;
+import de.company.accountingfx.store.Record;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 

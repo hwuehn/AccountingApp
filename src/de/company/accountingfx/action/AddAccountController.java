@@ -1,8 +1,8 @@
-package de.company.accountingfx.control;
+package de.company.accountingfx.action;
 
 import de.company.accountingfx.MainApp;
-import de.company.accountingfx.model.util.AccountWrapper;
-import de.company.accountingfx.model.Account;
+import de.company.accountingfx.store.util.AccountXMLWrapper;
+import de.company.accountingfx.store.Account;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -119,12 +119,12 @@ public class AddAccountController {
     public void saveAccListToFile(File file) {
         try {
             JAXBContext context = JAXBContext
-                    .newInstance(AccountWrapper.class);
+                    .newInstance(AccountXMLWrapper.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
             // Wrapping our list data.
-            AccountWrapper wrapper = new AccountWrapper();
+            AccountXMLWrapper wrapper = new AccountXMLWrapper();
             wrapper.setAccounts(accounts);
 
             // Marshalling and saving XML to the file.

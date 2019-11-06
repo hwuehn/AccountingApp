@@ -1,7 +1,7 @@
-package de.company.accountingfx.model;
+package de.company.accountingfx.store;
 
-import de.company.accountingfx.model.util.CounterId;
-import de.company.accountingfx.model.util.LocalDateAdapter;
+import de.company.accountingfx.store.util.CounterId;
+import de.company.accountingfx.store.util.LocalDateAdapter;
 import javafx.beans.property.*;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;

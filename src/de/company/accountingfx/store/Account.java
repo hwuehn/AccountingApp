@@ -1,4 +1,4 @@
-package de.company.accountingfx.model;
+package de.company.accountingfx.store;
 
 import javafx.beans.property.*;
 

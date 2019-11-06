@@ -1,4 +1,4 @@
-package de.company.accountingfx.model.util;
+package de.company.accountingfx.store.util;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;
