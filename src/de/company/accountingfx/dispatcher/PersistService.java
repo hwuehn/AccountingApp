@@ -17,7 +17,8 @@ public class PersistService {
 
     private static final String ACCOUNTLIST_XML = "./resources/save/accountList.xml";
 
-    public PersistService() {};
+    public PersistService() {
+    }
 
     public static void loadRecordDataFromFile(File file, List<Record> records) {
         if (file == null) return;
@@ -28,11 +29,10 @@ public class PersistService {
             RecordXMLWrapper wrapper = (RecordXMLWrapper) um.unmarshal(file);
 
             records.clear();
-            records.addAll(wrapper.getRecords());
+            records = wrapper.getRecords();
 
-            System.out.println(records);
-
-            Dispatcher.dispatch(new PersistMessage(PersistMessage.SET_PATH, file, null));
+            //    Dispatcher.dispatch(new PersistMessage(PersistMessage.SET_PATH, file, null));
+            Dispatcher.dispatch(new PersistMessage(PersistMessage.LOADED_RECORDTABLE, null, records));
 
         } catch (JAXBException e) {
             e.printStackTrace();

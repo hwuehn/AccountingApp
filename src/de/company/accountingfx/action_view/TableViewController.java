@@ -1,6 +1,9 @@
-package de.company.accountingfx.action;
+package de.company.accountingfx.action_view;
 
+import com.google.common.eventbus.Subscribe;
+import de.company.accountingfx.dispatcher.DialogMessage;
 import de.company.accountingfx.dispatcher.Dispatcher;
+import de.company.accountingfx.dispatcher.PersistMessage;
 import de.company.accountingfx.store.Account;
 import de.company.accountingfx.store.AppDB;
 import de.company.accountingfx.store.Record;
@@ -18,7 +21,7 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RecordTableController implements Initializable {
+public class TableViewController implements Initializable {
 
     @FXML
     private TableView<Record> accountingRecordTable;
@@ -65,6 +68,10 @@ public class RecordTableController implements Initializable {
     private TextField filterTextField;
     @FXML
     private Button filterBtn;
+    @FXML
+    private ResourceBundle resources;
+    @FXML
+    private URL location;
 
     @FXML
     private IMainController mainController;
@@ -72,13 +79,13 @@ public class RecordTableController implements Initializable {
     @FXML
     private ComboBox<Account> debitAccField;
 
-    public RecordTableController() {
+    public TableViewController() {
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Dispatcher.subscribe(this);
-        assert accountingRecordTable != null : "fx:id\"accountingRecordTable\" was not injected: check your FXML file 'RecordTable.fxml'.";
+        assert accountingRecordTable != null : "fx:id\"accountingRecordTable\" was not injected: check your FXML file 'TableView.fxml'.";
 
         // Initialize the accountingRecord table with the seven columns.
         iDColumn.setCellValueFactory(cellData -> cellData.getValue().idProperty().asString());
@@ -107,9 +114,9 @@ public class RecordTableController implements Initializable {
         accountingRecordTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showAccountingRecordDetails(newValue));
 
-        debitAccField.setItems(FXCollections.observableArrayList(AddAccountController.getAccounts()));
+        debitAccField.setItems(FXCollections.observableArrayList(AccountController.getAccounts()));
         debitAccField.getSelectionModel().selectFirst();
-        creditAccField.setItems(FXCollections.observableArrayList(AddAccountController.getAccounts()));
+        creditAccField.setItems(FXCollections.observableArrayList(AccountController.getAccounts()));
         creditAccField.getSelectionModel().selectFirst();
         Callback<ListView<Account>, ListCell<Account>> cellFactory = createCellFactoryAcc();
         debitAccField.setButtonCell(cellFactory.call(null));
@@ -145,40 +152,32 @@ public class RecordTableController implements Initializable {
                 return null;
             }
         });
+
     }
 
     private Callback<ListView<Account>, ListCell<Account>> createCellFactoryAcc() {
         return new Callback<ListView<Account>, ListCell<Account>>() {
-                @Override
-                public ListCell<Account> call(ListView<Account> l) {
-                    return new ListCell<Account>() {
-                        @Override
-                        protected void updateItem(Account item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (item == null || empty) {
-                                setGraphic(null);
-                            } else {
-                                setText(item.getAccID() + "    " + item.getAccTag());
-                            }
+            @Override
+            public ListCell<Account> call(ListView<Account> l) {
+                return new ListCell<Account>() {
+                    @Override
+                    protected void updateItem(Account item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(item.getAccID() + "    " + item.getAccTag());
                         }
-                    };
-                }
-            };
+                    }
+                };
+            }
+        };
     }
 
-    @FXML
+    @Subscribe
     public void subscribeAppDb(AppDB appDB) {
         setAppState(appDB);
     }
-
-    public void setMainController(IMainController controller) {
-        this.mainController = controller;
-    }
-
-    public void setAppState(AppDB appState) {
-        accountingRecordTable.setItems(appState.getRecords());
-        //enableFiltering();
-     }
 
     private void showAccountingRecordDetails(Record record) {
         if (record != null) {
@@ -206,15 +205,9 @@ public class RecordTableController implements Initializable {
         }
     }
 
-    @FXML
-    public void setAccountingRecord() {
-
-//        if (isInputValid()) {
-//            mainApp.getRecordData().add(new Record(new CounterId(), Double.parseDouble(amountField.getText()),
-//                    debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
-//                    DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
-//                    tagField.getText()));
-//        }
+    public void setAppState(AppDB appState) {
+        accountingRecordTable.setItems(appState.getRecords());
+        enableFiltering();
     }
 
     private boolean isInputValid() {
@@ -266,8 +259,19 @@ public class RecordTableController implements Initializable {
         }
     }
 
-//    public void enableFiltering() {
-//        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+    @FXML
+    public void setAccountingRecord() {
+
+//        if (isInputValid()) {
+//            appDB.getRecords().add(new Record(new CounterId(), Double.parseDouble(amountField.getText()),
+//                    debitAccField.getSelectionModel().getSelectedItem(), Integer.parseInt(docNumField.getText()),
+//                    DateUtil.parse(dateField.getText()), creditAccField.getSelectionModel().getSelectedItem(),
+//                    tagField.getText()));
+//        }
+    }
+
+    public void enableFiltering() {
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
 //        FilteredList<Record> filteredData = new FilteredList<>(mainApp.getRecordData(), r -> true);
 //        // 2. Set the filter Predicate whenever the filter changes.
 //        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -302,13 +306,53 @@ public class RecordTableController implements Initializable {
 //        sortedData.comparatorProperty().bind(accountingRecordTable.comparatorProperty());
 //        // 5. Add sorted (and filtered) data to the table.
 //        accountingRecordTable.setItems(sortedData);
-//    }
-
-    public ComboBox<Account> getCreditAccField() {
-        return creditAccField;
     }
 
-    public ComboBox<Account> getDebitAccField() {
-        return debitAccField;
+    public void setMainController(IMainController controller) {
+        this.mainController = controller;
+    }
+
+    @FXML
+    private void handleNew() {
+        Dispatcher.dispatch(new PersistMessage(PersistMessage.NEW_RECORDTABLE));
+    }
+
+    @FXML
+    private void handleOpen() {
+        Dispatcher.dispatch(new DialogMessage(DialogMessage.LOAD_DIALOG, mainController.getStage()));
+    }
+
+    @FXML
+    private void handleSave() {
+        Dispatcher.dispatch(new PersistMessage(PersistMessage.SAVE_RECORDTABLE));
+    }
+
+    @FXML
+    private void handleSaveAs() {
+        Dispatcher.dispatch(new DialogMessage(DialogMessage.SAVEAS_DIALOG, mainController.getStage()));
+    }
+
+    @FXML
+    private void handleAbout() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("AccountingApp");
+        alert.setHeaderText("About");
+        alert.setContentText("Author: Henning Wuehn");
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void handleExit() {
+        Dispatcher.dispatch(new PersistMessage(PersistMessage.EXIT));
+
+    }
+
+    @FXML
+    private void handleEditAcc() {
+//          Account account = new Account();
+//           mainApp.showAccountAddDialog(account);
+//           mainApp.getAccountList().add(account);
     }
 }
+
+

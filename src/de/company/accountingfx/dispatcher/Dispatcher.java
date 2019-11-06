@@ -4,8 +4,10 @@ import com.google.common.eventbus.DeadEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import de.company.accountingfx.store.AppDB;
+import de.company.accountingfx.store.Record;
 
 import java.io.File;
+import java.util.List;
 
 public class Dispatcher {
 
@@ -109,10 +111,19 @@ public class Dispatcher {
             case PersistMessage.EXIT:
                 PersistService.exit();
                 break;
+            case PersistMessage.LOADED_RECORDTABLE:
+                setTable(((PersistMessage<Record>) msg).payload);
+                break;
 
             default:
                 throw new IllegalStateException("Message not defined: " + msg.getMsgType());
         }
+    }
+
+    private void setTable(List<Record> records) {
+        appDB.getRecords().clear();
+        appDB.getRecords().addAll(records);
+
     }
 
 

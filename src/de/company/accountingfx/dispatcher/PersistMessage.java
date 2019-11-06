@@ -14,6 +14,7 @@ public class PersistMessage<T> implements IMsg{
     public static final String LOAD_TESTDATA =    " load_testData ";
     public static final String EXIT =             " exit_project ";
     public static final String SET_TITLE =        " set_title ";
+    public static final String LOADED_RECORDTABLE = " loading_success ";
 
     public File file;
     public List<T> payload;
@@ -38,7 +39,6 @@ public class PersistMessage<T> implements IMsg{
     public String toString() {
         return "PersistMessage{" +
                 "file=" + file +
-                ", payload=" + payload +
                 ", msgType='" + msgType + '\'' +
                 '}';
     }

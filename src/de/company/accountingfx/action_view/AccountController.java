@@ -1,21 +1,20 @@
-package de.company.accountingfx.action;
+package de.company.accountingfx.action_view;
 
 import de.company.accountingfx.MainApp;
-import de.company.accountingfx.store.util.AccountXMLWrapper;
 import de.company.accountingfx.store.Account;
+import de.company.accountingfx.store.util.AccountXMLWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 
-public class AddAccountController {
+public class AccountController {
 
     @FXML
     private TextField accIdTextField;
@@ -44,7 +43,7 @@ public class AddAccountController {
     }
 
     public void setAccounts(ObservableList<Account> accounts) {
-        AddAccountController.accounts = accounts;
+        AccountController.accounts = accounts;
     }
 
     // Reference to the main application.
@@ -153,24 +152,24 @@ public class AddAccountController {
         return path;
     }
 
-    public void saveAccList() {
-        FileChooser fileChooser = new FileChooser();
-
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        // Show save file dialog
-        File file = fileChooser.showSaveDialog(mainApp.getStage());
-
-        if (file != null) {
-            // Make sure it has the correct extension
-            if (!file.getPath().endsWith(".xml")) {
-                file = new File(file.getPath() + ".xml");
-            }
-            saveAccListToFile(file);
-        }
-    }
+//    public void saveAccList() {
+//        FileChooser fileChooser = new FileChooser();
+//
+//        // Set extension filter
+//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+//                "XML files (*.xml)", "*.xml");
+//        fileChooser.getExtensionFilters().add(extFilter);
+//
+//        // Show save file dialog
+//        File file = fileChooser.showSaveDialog(mainApp.getStage());
+//
+//        if (file != null) {
+//            // Make sure it has the correct extension
+//            if (!file.getPath().endsWith(".xml")) {
+//                file = new File(file.getPath() + ".xml");
+//            }
+//            saveAccListToFile(file);
+//        }
+//    }
 
 }
