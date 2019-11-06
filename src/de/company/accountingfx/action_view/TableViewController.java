@@ -185,6 +185,9 @@ public class TableViewController implements Initializable {
     }
 
     private void showAccountingRecordDetails(Record record) {
+
+        //  Dispatcher.dispatch(new RecordMessage(RecordMessage.SHOW_DETAIL, null, record));
+
         if (record != null) {
             // Fill the labels with info from the record object.
             debitAccIDLabel.setText(record.getDebitAcc().getAccID());
@@ -358,6 +361,30 @@ public class TableViewController implements Initializable {
 //          Account account = new Account();
 //           mainApp.showAccountAddDialog(account);
 //           mainApp.getAccountList().add(account);
+    }
+
+    public Label getDebitAccIDLabel() {
+        return debitAccIDLabel;
+    }
+
+    public Label getDebitAccTagLabel() {
+        return debitAccTagLabel;
+    }
+
+    public Label getCreditAccIDLabel() {
+        return creditAccIDLabel;
+    }
+
+    public Label getCreditAccTagLabel() {
+        return creditAccTagLabel;
+    }
+
+    public Label getDebitAccAmountLabel() {
+        return debitAccAmountLabel;
+    }
+
+    public Label getCreditAccAmountLabel() {
+        return creditAccAmountLabel;
     }
 }
 

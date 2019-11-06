@@ -130,9 +130,9 @@ public class Dispatcher {
             case RecordMessage.ADD:
 
                 break;
-            case RecordMessage.SHOW_DETAIL:
-
-                break;
+//            case RecordMessage.SHOW_DETAIL:
+//                RecordService.showDetail(msg.newRecord);
+//                break;
 
             default:
                 throw new IllegalStateException("Message not defined: " + msg.getMsgType());
